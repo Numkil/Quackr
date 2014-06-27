@@ -29,10 +29,11 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-	this.navigate('home');
 	
 	this.registerURL = /^#register/;
-	this.overviewURL = /^#overview/;	
+	this.overviewURL = /^#overview/;
+	
+	self.route();
     },
 
     bindEvents: function() {
