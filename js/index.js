@@ -29,7 +29,10 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-		this.navigate('home');
+	this.navigate('home');
+	
+	this.registerURL = /^#register/;
+	this.overviewURL = /^#overview/;	
     },
 
     bindEvents: function() {
@@ -37,12 +40,23 @@ var app = {
     },
 	
     onDeviceReady: function() {
-        
+        $(window).on('hashchange', $.proxy(this.route, this));
     },
 	
 	
-	
-	navigate: function( location ) {
-		render(location, {});
-	}
+    route: function() {
+	    var hash = window.location.hash;
+	    if (!hash) {
+	        render('home', {});
+	        return;
+	    }
+	    var match = hash.match(app.registerURL);
+	    if (match) {
+	        render('register', {});
+	    }
+	    var match = hash.match(app.overviewURL);
+	    if (match) {
+	        render('overview', {});
+	    }
+    }
 };
