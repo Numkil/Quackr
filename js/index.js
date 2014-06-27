@@ -54,10 +54,12 @@ var app = {
 	    var match = hash.match(app.registerURL);
 	    if (match) {
 	        render('register', {});
+	        return;
 	    }
 	    var match = hash.match(app.overviewURL);
 	    if (match) {
 	        render('overview', {});
+	        return;
 	    }
     }
 };
