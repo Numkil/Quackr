@@ -29,7 +29,8 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-	
+		
+		this.loginURL = /^#login/;
 		this.registerURL = /^#register/;
 		this.overviewURL = /^#overview/;
 		
@@ -47,7 +48,7 @@ var app = {
 	
     route: function() {
 	    var hash = window.location.hash;
-	    if (!hash) {
+	    if (!hash || hash.match(app.loginURL)) {
 	        render('home', {});
 	        return;
 	    }
