@@ -30,10 +30,10 @@ var app = {
     initialize: function() {
         this.bindEvents();
 	
-	this.registerURL = /^#register/;
-	this.overviewURL = /^#overview/;
-	
-	self.route();
+		this.registerURL = /^#register/;
+		this.overviewURL = /^#overview/;
+		
+		this.route();
     },
 
     bindEvents: function() {
@@ -54,12 +54,12 @@ var app = {
 	    var match = hash.match(app.registerURL);
 	    if (match) {
 	        render('register', {});
-	        return;
+			return;
 	    }
 	    var match = hash.match(app.overviewURL);
 	    if (match) {
 	        render('overview', {});
-	        return;
+			return;
 	    }
     }
 };
