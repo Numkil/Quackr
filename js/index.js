@@ -30,16 +30,21 @@ var app = {
     initialize: function() {
         this.bindEvents();
 		
-	this.loginURL = /^#login/;
-	this.registerURL = /^#register/;
-	this.overviewURL = /^#overview/;
+	this.loginURL = /#login/;
+	this.registerURL = /#register/;
+	this.overviewURL = /#overview/;
 	
 	this.route();
-    },
+},
 
     bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    },
+	
+    onDeviceReady: function() {
         $(window).on('hashchange', $.proxy(this.route, this));
     },
+	
 	
     route: function() {
 	    var hash = window.location.hash;
