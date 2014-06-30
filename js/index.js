@@ -35,10 +35,10 @@ var app = {
 	this.overviewURL = /#overview/;
 	
 	this.route();
-},
+    },
 
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('deviceready', $.proxy(this.onDeviceReady, this), false);
     },
 	
     onDeviceReady: function() {
