@@ -21,24 +21,24 @@ function render(tmpl_name, tmpl_data) {
 	}
 
 	var rendered = render.tmpl_cache[tmpl_name](tmpl_data);
-	$('#maincontainer').html(rendered);
+	$('#maincontainer').html(rendered).trigger('create'); //Voor de jQuery mobile classes aan te maken moet ge een create event triggeren
 }
 	
 	
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function() {	
         this.bindEvents();
 		
-	this.loginURL = /#login/;
-	this.registerURL = /#register/;
-	this.overviewURL = /#overview/;
-	
-	this.route();
+		this.loginURL = /#login/;
+		this.registerURL = /#register/;
+		this.overviewURL = /#overview/;
+		
+		this.route();
     },
 
     bindEvents: function() {
-        document.addEventListener('deviceready', $.proxy(this.onDeviceReady, this), false);
+    	$(window).hashchange( this.route );
     },
 	
     onDeviceReady: function() {
@@ -47,9 +47,11 @@ var app = {
 	
 	
     route: function() {
+    	console.log('routing');
+
 	    var hash = window.location.hash;
 	    if (!hash || hash.match(app.loginURL)) {
-	        render('home', {});
+	        render('login', {});
 	        return;
 	    }
 	    var match = hash.match(app.registerURL);
@@ -62,5 +64,6 @@ var app = {
 	        render('overview', {});
 			return;
 	    }
+	    console.log('No view found for: ' + hash);
     }
 };

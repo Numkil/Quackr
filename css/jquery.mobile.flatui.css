@@ -407,7 +407,7 @@ html .ui-alt-icon .ui-btn.ui-checkbox-on:after {
 	height: 99.9%;
 }
 .ui-mobile fieldset,
-.ui-page {
+.
 	padding: 0;
 	margin: 0;
 }
@@ -447,8 +447,11 @@ div.ui-mobile-viewport {
 	width: 100%;
 	min-height: 100%;
 	position: absolute;
-	display: none;
+	/*display: none;*/
 	border: 0;
+	height: 99%;
+	right: 0;
+	bottom: 0;
 }
 /* On ios4, setting focus on the page element causes flashing during transitions when there is an outline, so we turn off outlines */
 .ui-page {
