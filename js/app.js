@@ -39,17 +39,17 @@
 	    		//TODO: Process register
 	    		render('register', {});
 	    		return;
-	    	} else if (hash.match(app.loginURL)){
+	    	} else if (hash.match(app.loginURL) || hash.match("")){
 	    		//Process login
 	    		//TODO: Process login
 	    		render('login', {});
 	    		return;
+	    	} else {
+		    	//Just show register as failsave
+		    	console.log('ERROR Invalid URL while not logged in: ' + hash);
+		    	render('login', {});
+	    		return;
 	    	}
-
-	    	//Just show register as failsave
-	    	console.log('ERROR Invalid URL while not logged in: ' + hash);
-	    	render('login', {});
-    		return;
     	} else {
 		    //-- we are sure user is logged in from now on
 		    if (!hash || hash.match(app.loginURL)) {
