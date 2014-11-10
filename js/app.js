@@ -1,57 +1,37 @@
-function render(tmpl_name, tmpl_data) {
-	if ( !render.tmpl_cache ) { 
-		render.tmpl_cache = {};
-	}
-
-	if ( ! render.tmpl_cache[tmpl_name] ) {
-		var tmpl_dir = 'js/templates';
-		var tmpl_url = tmpl_dir + '/' + tmpl_name + '.html';
-
-		var tmpl_string;
-		$.ajax({
-			url: tmpl_url,
-			method: 'GET',
-			async: false,
-			success: function(data) {
-				tmpl_string = data;
-			}
-		});
-
-		render.tmpl_cache[tmpl_name] = _.template(tmpl_string);
-	}
-
-	var rendered = render.tmpl_cache[tmpl_name](tmpl_data);
-	$('#maincontainer').html(rendered).trigger('create'); //Voor de jQuery mobile classes aan te maken moet ge een create event triggeren
-}
-	
-	
-var app = {
-    // Application Constructor
-    initialize: function() {	
+    initialize: function() {
+	// Application Constructor	
         this.bindEvents();
 		
-		this.loginURL = /#login/;
-		this.registerURL = /#register/;
-		this.overviewURL = /#overview/;
+		this.setupURLS();
 		
 		this.route();
     },
 
+    setupURLS: function() {
+	// Setup RegEx URLs of our routes
+		this.loginURL = /#login/;
+		this.registerURL = /#register/;
+		this.overviewURL = /#overview/;
+    }
+
     bindEvents: function() {
-    	$(window).hashchange( this.route );
+    // Bind all our events
+    	document.addEventListener('deviceready', this.onDeviceReady, false); //cordova
+    	$(window).hashchange( this.route );	//temp for without cordova
     },
 	
     onDeviceReady: function() {
+    // When everything is loaded, do this
         $(window).on('hashchange', $.proxy(this.route, this));
     },
 	
 	
     route: function() {
-    	console.log('routing');
+    // route is called when a link is clicked
 
 	    var hash = window.location.hash;
 	    if (!hash || hash.match(app.loginURL)) {
-	        render('login', {});
+	        var lv = new LoginView({document.getElementById('login').value, document.getElementById('pass').value});
 	        return;
 	    }
 	    var match = hash.match(app.registerURL);
@@ -64,6 +44,6 @@ var app = {
 	        render('overview', {});
 			return;
 	    }
-	    console.log('No view found for: ' + hash);
+	    console.log('ERROR Invalid URL: ' + hash);
     }
 };
