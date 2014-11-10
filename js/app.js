@@ -1,6 +1,9 @@
- var app = {   
+ var app = { 
+
     initialize: function() {
 	// Application Constructor	
+		this.loggedin = false;
+
         this.bindEvents();
 		
 		this.setupURLS();
@@ -29,23 +32,40 @@
 	
     route: function() {
     // route is called when a link is clicked
-
 	    var hash = window.location.hash;
-	    if (!hash || hash.match(app.loginURL)) {
-	        //var lv = new LoginView(document.getElementById('login').value, document.getElementById('pass').value);
-	        render('login', {});
-	        return;
-	    }
-	    var match = hash.match(app.registerURL);
-	    if (match) {
-	        render('register', {});
-			return;
-	    }
-	    var match = hash.match(app.overviewURL);
-	    if (match) {
-	        render('overview', {});
-			return;
-	    }
-	    console.log('ERROR Invalid URL: ' + hash);
+	    if (!this.loggedin){
+	    	if (hash.match(app.registerURL)){
+	    		//Process register
+	    		//TODO: Process register
+	    		render('register', {});
+	    		return;
+	    	} else if (hash.match(app.loginURL)){
+	    		//Process login
+	    		//TODO: Process login
+	    		render('login', {});
+	    		return;
+	    	}
+
+	    	//Just show register as failsave
+	    	console.log('ERROR Invalid URL while not logged in: ' + hash);
+	    	render('login', {});
+    		return;
+    	} else {
+		    //-- we are sure user is logged in from now on
+		    if (!hash || hash.match(app.loginURL)) {
+		        //var lv = new LoginView(document.getElementById('login').value, document.getElementById('pass').value);
+		        render('login', {});
+		        return;
+		    }
+		    var match = hash.match(app.overviewURL);
+		    if (match) {
+		        render('overview', {});
+				return;
+		    }
+
+    	    console.log('ERROR Invalid URL while logged in: ' + hash);
+	    	render('overview', {});
+	    	return;
+		}
     }
 };
