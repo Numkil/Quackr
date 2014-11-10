@@ -1,4 +1,4 @@
-var LoginView = function (data) {
+var OverviewView = function (data) {
 //View for the login screen and login functionality
 
 	this.initialize = function () {
@@ -8,7 +8,8 @@ var LoginView = function (data) {
 			render('overview', {});
 		} else {
 			//Re-render and show login page with login filled in
-			render('login', data[0]);
+			//TODO: Show error message
+			render('login', {}});
 		}
 	}
 

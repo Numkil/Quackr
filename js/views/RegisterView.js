@@ -3,16 +3,22 @@ var LoginView = function (data) {
 
 	this.initialize = function () {
 	// View constructor
-		if (this.checkLogin(data[0], data[1]) == true){
-			app.loggedin = true;
-			render('overview', {});
+		if (data){
+			//Trying to register.
+			if (this.register(data[0], data[1]) == true){
+				//TODO: Show successful message
+				render('login', {});
+			} else {
+				//TODO: Show error message
+				render('register', {});
+			}
 		} else {
-			//Re-render and show login page with login filled in
-			render('login', data[0]);
+			//No data passed
+			render('register', {});
 		}
 	}
 
-	this.checkLogin = function(email, pass) {
+	this.register = function(email, pass) {
 	// Login functionality to check for login
 		pass = sha1('salt' + pass + 'othersalt');
 		//TODO: Check our REST api
