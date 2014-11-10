@@ -8,7 +8,7 @@ var LoginView = function (data) {
 			render('overview', {});
 		} else {
 			//TODO: Pre-fill in username and show (error) message
-			render('login', {data[0]});
+			render('login', data[0]);
 		}
 	}
 

@@ -1,3 +1,4 @@
+ var app = {   
     initialize: function() {
 	// Application Constructor	
         this.bindEvents();
@@ -12,7 +13,7 @@
 		this.loginURL = /#login/;
 		this.registerURL = /#register/;
 		this.overviewURL = /#overview/;
-    }
+    },
 
     bindEvents: function() {
     // Bind all our events
@@ -31,7 +32,8 @@
 
 	    var hash = window.location.hash;
 	    if (!hash || hash.match(app.loginURL)) {
-	        var lv = new LoginView({document.getElementById('login').value, document.getElementById('pass').value});
+	        //var lv = new LoginView(document.getElementById('login').value, document.getElementById('pass').value);
+	        render('login', {});
 	        return;
 	    }
 	    var match = hash.match(app.registerURL);
