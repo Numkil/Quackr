@@ -1,3 +1,4 @@
+<div id="registerpage"></div>
 <div data-role="page">
     <!-- SLIDEMENU START -->
     <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="push">
@@ -19,7 +20,7 @@
         <div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
 			<h2 class="ui-bar ui-bar-a ui-corner-all">Start Quackin'</h2>	
 			<div class="innerdiv">
-				<form method="POST">
+				<form action="#doregister">
 					<label for="email">Email address</label>
 					<input type="text" name="email" id="email" placeholder="Your e-mail address" class="required" required>
 					<br>
@@ -32,7 +33,7 @@
 					<label for="lastname">Your last name</label>
 					<input type="text" name="lastname" id="lastname" placeholder="Your last name" class="required" required>					
 					<br><br>
-					<button data-icon="flat-new" class="ui-btn ui-btn-b ui-icon-flat-plus ui-btn-icon-left ui-shadow fullwidth">Register </button>
+					<a href="#register?do" data-icon="flat-new" class="ui-btn ui-btn-b ui-icon-flat-plus ui-btn-icon-left ui-shadow fullwidth">Register </a>
 				</form>
 			</div>
          </div>

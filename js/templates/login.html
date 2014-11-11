@@ -1,3 +1,4 @@
+<div id="loginpage"></div>
 <div data-role="page">
 	<!-- SLIDEMENU START -->
 	<div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="push">
@@ -15,15 +16,15 @@
 
 	<div data-role="content" role="main">
 		<div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
-			<img class="scale-img" src="css/images/logo.svg" alt="Quackr logo">
-			<!-- <p>Login to Quackr.</p> -->
-			<form method="POST">
+			<form action="javascript:redirect('#dologin');">
+				<img class="scale-img" src="css/images/logo.svg" alt="Quackr logo">
+				<p>{{msg}}</p>
 				<input type="email" id="login" placeholder="Email Address" class="required" required/>
 				<input type="password" id="pass" placeholder="Password" class="required" required/>
 				
 				<br>
 				<div data-role="controlgroup">
-					<button data-icon="flat-new" class="ui-btn ui-btn-b ui-icon-flat-checkmark ui-btn-icon-left ui-shadow fullwidth">Login</button>
+					<button type="submit" data-icon="flat-new" class="ui-btn ui-btn-b ui-icon-flat-checkmark ui-btn-icon-left ui-shadow fullwidth">Login</button>
 					<a href="#register" data-icon="flat-new" class="ui-btn ui-btn-c ui-icon-flat-plus ui-btn-icon-left ui-shadow fullwidth">Create account?</a>
 				</div>
 			</form>

@@ -1,4 +1,4 @@
-var LoginView = function (data) {
+var RegisterView = function (data) {
 //View for the login screen and login functionality
 
 	this.initialize = function () {
@@ -7,13 +7,16 @@ var LoginView = function (data) {
 			//Trying to register.
 			if (this.register(data[0], data[1]) == true){
 				//TODO: Show successful message
-				render('login', {});
+				console.log('registration successful');
+				redirect('#login');
 			} else {
 				//TODO: Show error message
-				render('register', {});
+				console.log('error in registration');
+				redirect('#register');
 			}
 		} else {
 			//No data passed
+			console.log('no data in registration form');
 			render('register', {});
 		}
 	}

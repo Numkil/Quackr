@@ -14,7 +14,9 @@
     setupURLS: function() {
 	// Setup RegEx URLs of our routes
 		this.loginURL = /#login/;
+		this.dologinURL = /#dologin/;
 		this.registerURL = /#register/;
+		this.doregisterURL = /#doregister/;
 		this.overviewURL = /#overview/;
     },
 
@@ -33,29 +35,34 @@
     route: function() {
     // route is called when a link is clicked
 	    var hash = window.location.hash;
-	    
-	    render('login', {}, "le error", {});
-	    return;
 
 	    if (!this.loggedin){
 	    	if (hash.match(app.registerURL)){
 	    		//Process register
-	    		var rv = new RegisterView(document.getElementById('login').value, document.getElementById('pass').value, document.getElementById('firstname').value, document.getElementById('lastname').value);
+	    		var rv = new RegisterView();
+				return;
+	    	} else if (hash.match(app.doregisterURL)){
+    			var rv = new RegisterView(document.getElementById('login').value, document.getElementById('pass').value, document.getElementById('firstname').value, document.getElementById('lastname').value);
 	    		return;
-	    	} else if (hash.match(app.loginURL) || hash.match("")){
+	    	} else if (hash.match(app.loginURL)){
 	    		//Process login
+	    		var lv = new LoginView();
+	    		return;
+	    	} else if (hash.match(app.dologinURL)) {
 	    		var lv = new LoginView(document.getElementById('login').value, document.getElementById('pass').value);
 	    		return;
+	    	} else if (hash.match("")){
+	    		render('login', {});
 	    	} else {
-		    	//Just show register as failsave
-		    	console.log('ERROR Invalid URL while not logged in: ' + hash);
+		    	//Just show login as failsave
+		    	console.log('ERROR Invalid or empty URL while not logged in: ' + hash);
 		    	render('login', {});
 	    		return;
 	    	}
     	} else {
 		    //-- we are sure user is logged in from now on
-		    var match = hash.match(app.overviewURL);
-		    if (match) {
+		    if (hash.match(app.overviewURL) || (hash == '')) {
+		    	console.log('overview');
 		        render('overview', {});
 				return;
 		    }
