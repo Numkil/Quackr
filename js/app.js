@@ -1,7 +1,7 @@
  var app = { 
 
     initialize: function() {
-	// Application Constructor	
+	// Application Constructor
 		this.loggedin = false;
 
         this.bindEvents();
@@ -18,6 +18,7 @@
 		this.registerURL = /#register/;
 		this.doregisterURL = /#doregister/;
 		this.overviewURL = /#overview/;
+		this.logoutURL = /#logout/;
     },
 
     bindEvents: function() {
@@ -30,13 +31,19 @@
     // When everything is loaded, do this
         $(window).on('hashchange', $.proxy(this.route, this));
     },
+
+    logout: function() {
+    	app.loggedin = false;
+    	//TODO: unset user variables
+    },
 	
 	
     route: function() {
     // route is called when a link is clicked
 	    var hash = window.location.hash;
 
-	    if (!this.loggedin){
+	    if (!app.loggedin){
+	    	console.log('user not logged in');
 	    	if (hash.match(app.registerURL)){
 	    		//Process register
 	    		var rv = new RegisterView();
@@ -60,11 +67,15 @@
 	    		return;
 	    	}
     	} else {
+    		console.log('user is logged in!');
 		    //-- we are sure user is logged in from now on
 		    if (hash.match(app.overviewURL) || (hash == '')) {
-		    	console.log('overview');
 		        render('overview', {});
 				return;
+		    } else if (hash.match(app.logoutURL)){
+		    	this.logout();
+		    	redirect('#login');
+		    	return;
 		    }
 
     	    console.log('ERROR Invalid URL while logged in: ' + hash);
