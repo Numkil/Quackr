@@ -3,25 +3,21 @@
     <!-- SLIDEMENU START -->
     <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="push">
 
-        <div class="wrapmenu">
-			<a href="#" class="current-account ui-btn ui-icon-home ui-btn-icon-left"><span>Dashboard</span></a>
-			<a href="#" class="current-account ui-btn ui-icon-user ui-btn-icon-left"><span>My Quackr</span></a>          
+      <div class="wrapmenu">
+  			<a href="#overview" class="current-account ui-btn ui-icon-home ui-btn-icon-left"><span>Dashboard</span></a>
+  			<a href="#profile" class="current-account ui-btn ui-icon-user ui-btn-icon-left"><span>My Quackr</span></a>          
 
           <h3>Discover</h3>
           <ul class="menu">
-            <li><a href="#" class="ui-btn ui-icon-bullets ui-btn-icon-left"><span>Browse Categories</span></a></li>
-            <li><a href="#" class="ui-btn ui-icon-search ui-btn-icon-left"><span>Browse Questions</span></a></li>
+            <li><a href="#categories" class="ui-btn ui-icon-bullets ui-btn-icon-left"><span>Browse Categories</span></a></li>
+            <li><a href="#questions" class="ui-btn ui-icon-search ui-btn-icon-left"><span>Browse Questions</span></a></li>
           </ul>
 
           <h3>System</h3>   
           <ul class="menu">
-            <li><a href="#" class="ui-btn ui-icon-gear ui-btn-icon-left"><span>Settings</span></a></li>
-            <li><a href="#" class="ui-btn ui-icon-minus ui-btn-icon-left"><span>Logout</span></a></li>
-            <li><a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left"><span>Exit</span></a></li>
-          </ul>
-          <!-- login/register menu -->
-          <ul class="menu">
-            <li><a href="index.html" class="ui-btn ui-icon-lock ui-btn-icon-left"><span>Login</span></a></li>
+            <li><a href="#settings" class="ui-btn ui-icon-gear ui-btn-icon-left"><span>Settings</span></a></li>
+            <li><a href="#logout" class="ui-btn ui-icon-minus ui-btn-icon-left"><span>Logout</span></a></li>
+            <li><a href="#exit" class="ui-btn ui-icon-delete ui-btn-icon-left"><span>Exit</span></a></li>
           </ul> 
         </div>
     </div>
@@ -30,7 +26,7 @@
     <div data-role="header">
       <a data-iconpos="notext" href="#panel" data-role="button" data-icon="flat-menu"></a>
       <h1>Dashboard</h1>
-      <a data-iconpos="notext" data-role="button" data-icon="home" title="Home">Overview</a>
+      <a data-iconpos="notext" data-role="button" data-icon="home" title="Home" href="#profile"></a>
     </div>
 
     <div data-role="content" role="main">
