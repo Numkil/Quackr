@@ -16,18 +16,13 @@
 
 	<div data-role="content" role="main">
 		<div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
-			<form action="javascript:redirect('#dologin');">
-				<img class="scale-img" src="css/images/logo.svg" alt="Quackr logo">
-				<p>{{msg}}</p>
-				<input type="email" id="login" placeholder="Email Address" class="required" required/>
-				<input type="password" id="pass" placeholder="Password" class="required" required/>
-				
-				<br>
-				<div data-role="controlgroup">
-					<button type="submit" data-icon="flat-new" class="ui-btn ui-btn-b ui-icon-flat-checkmark ui-btn-icon-left ui-shadow fullwidth">Login</button>
-					<a href="#register" data-icon="flat-new" class="ui-btn ui-btn-c ui-icon-flat-plus ui-btn-icon-left ui-shadow fullwidth">Create account?</a>
-				</div>
-			</form>
+			<img class="scale-img" src="css/images/logo.svg" alt="Quackr logo">
+			<br>
+			<br>
+			<div data-role="controlgroup">
+				<a id="loginbtn" data-icon="flat-new" class="ui-btn ui-btn-b ui-icon-flat-checkmark ui-btn-icon-left ui-shadow fullwidth">Login</a>
+				<a href="#register" data-icon="flat-new" class="ui-btn ui-btn-c ui-icon-flat-plus ui-btn-icon-left ui-shadow fullwidth">Create account?</a>
+			</div>
 		 </div>
 	</div>
 </div>

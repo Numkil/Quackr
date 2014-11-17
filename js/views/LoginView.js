@@ -14,7 +14,31 @@ var LoginView = function (data) {
 				redirect('#login');
 			}
 		} else {
-			console.log('loginview no data passed');
+			log('loginview, no data');
+
+			log('Setting up authenticator form');
+        	//Setup authentication/login form
+
+			$(document).on('click', "#loginbtn", function(e) {
+				e.preventDefault();
+				app.lock.show({ icon: 'css/images/logo.svg' }, function(err, profile, token) {
+			    if (err) {
+			      // Error callback
+			      log('Login failed.. ' + err);
+
+			      //TODO: Show error message
+			    } else {
+			      // Success calback
+			      log('Logged in successfully!');
+			      // Save the JWT token.
+			      localStorage.setItem('userToken', token);
+			      app.loggedin = true;
+			      // Save the profile
+			      app.userProfile = profile;
+			      redirect('#overview');
+			    }
+			  });
+			});
 			render('login', {});
 		}
 	}
