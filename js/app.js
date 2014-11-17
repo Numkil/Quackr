@@ -25,6 +25,7 @@
 		this.doregisterURL = /#doregister/;
 		this.overviewURL = /#overview/;
 		this.logoutURL = /#logout/;
+		this.exitURL = /#exit/;
     },
 
     bindEvents: function() {
@@ -62,7 +63,13 @@
     route: function() {
     // route is called when a link is clicked
 	    var hash = window.location.hash;
-
+	    if (hash.match(app.exitURL)){
+	    	if(navigator.app){
+        		navigator.app.exitApp();
+			} else if(navigator.device){
+        		navigator.device.exitApp();
+			}
+	    } else 
 	    if (!app.loggedin){
 	    	log('user not logged in');
 	    	if (hash.match(app.registerURL)){

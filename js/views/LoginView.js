@@ -16,22 +16,19 @@ var LoginView = function (data) {
 		} else {
 			log('loginview, no data');
 
-			log('Setting up authenticator form');
         	//Setup authentication/login form
-
 			$(document).on('click', "#loginbtn", function(e) {
 				e.preventDefault();
 				app.lock.show({ icon: 'css/images/logo.svg' }, function(err, profile, token) {
 			    if (err) {
 			      // Error callback
 			      log('Login failed.. ' + err);
-
-			      //TODO: Show error message
 			    } else {
-			      // Success calback
+			      // Success callback
 			      log('Logged in successfully!');
 			      // Save the JWT token.
 			      localStorage.setItem('userToken', token);
+			      // We are logged in from now on
 			      app.loggedin = true;
 			      // Save the profile
 			      app.userProfile = profile;
