@@ -13,5 +13,5 @@ function render(template, args, msginfo, msgerror) {
     });
 };
 function redirect(location){
-	window.location = location;
+	app.route(location);
 }
