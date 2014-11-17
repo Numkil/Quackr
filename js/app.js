@@ -1,7 +1,12 @@
+ log = true;
+
  var app = { 
 
     initialize: function() {
 	// Application Constructor
+		//Setup authenticator
+		lock = new Auth0Lock('vmUb00t7jWrGtysEAiyX6CwC5XlgRR4Y', 'quackr.auth0.com');
+
 		this.loggedin = false;
 
         this.bindEvents();
@@ -29,7 +34,29 @@
 	
     onDeviceReady: function() {
     // When everything is loaded, do this
+    	//Setup routing
         $(window).on('hashchange', $.proxy(this.route, this));
+    	
+        //Setup authentication/login form
+    	var userProfile;
+
+		$('.loginbtn').click(function(e) {
+		  e.preventDefault();
+		  lock.show(function(err, profile, token) {
+		    if (err) {
+		      // Error callback
+		      alert('There was an error');
+		    } else {
+		      // Success calback
+
+		      // Save the JWT token.
+		      localStorage.setItem('userToken', token);
+
+		      // Save the profile
+		      userProfile = profile;
+		    }
+		  });
+		});
     },
 
     logout: function() {
@@ -43,7 +70,7 @@
 	    var hash = window.location.hash;
 
 	    if (!app.loggedin){
-	    	console.log('user not logged in');
+	    	log('user not logged in');
 	    	if (hash.match(app.registerURL)){
 	    		//Process register
 	    		var rv = new RegisterView();
@@ -62,12 +89,12 @@
 	    		render('login', {});
 	    	} else {
 		    	//Just show login as failsave
-		    	console.log('ERROR Invalid or empty URL while not logged in: ' + hash);
+		    	log('ERROR Invalid or empty URL while not logged in: ' + hash);
 		    	render('login', {});
 	    		return;
 	    	}
     	} else {
-    		console.log('user is logged in!');
+    		log('user is logged in!');
 		    //-- we are sure user is logged in from now on
 		    if (hash.match(app.overviewURL) || (hash == '')) {
 		        render('overview', {});
@@ -78,9 +105,15 @@
 		    	return;
 		    }
 
-    	    console.log('ERROR Invalid URL while logged in: ' + hash);
+    	    log('ERROR Invalid URL while logged in: ' + hash);
 	    	render('overview', {});
 	    	return;
 		}
     }
 };
+
+log = function ( msg ){
+	if (log){
+		log(msg);
+	}
+}
