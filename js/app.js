@@ -114,6 +114,6 @@
 
 log = function ( msg ){
 	if (log){
-		log(msg);
+		console.log(msg);
 	}
 }
