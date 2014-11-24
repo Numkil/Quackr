@@ -32,20 +32,13 @@ var LoginView = function (data) {
 			      app.loggedin = true;
 			      // Save the profile
 			      app.userProfile = profile;
+			      setInfoMessage('Welcome back ' + profile.nickname);
 			      redirect('#overview');
 			    }
 			  });
 			});
 			render('login', {});
 		}
-	}
-
-	this.checkLogin = function(email, pass) {
-	// Login functionality to check for login
-		pass = Sha256.hash('salt' + pass + 'othersalt');
-		console.log('checklogin: ' + email + ' , ' + pass);
-		//TODO: Check our REST api
-		return true; //temporary, until we get some REST goodness
 	}
 
 	this.initialize();

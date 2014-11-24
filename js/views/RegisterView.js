@@ -7,16 +7,16 @@ var RegisterView = function (data) {
 			//Trying to register.
 			if (this.register(data[0], data[1]) == true){
 				//TODO: Show successful message
-				console.log('registration successful');
+				log('registration successful');
 				redirect('#login');
 			} else {
 				//TODO: Show error message
-				console.log('error in registration');
+				log('error in registration');
 				redirect('#register');
 			}
 		} else {
 			//No data passed
-			console.log('no data in registration form');
+			log('no data in registration form');
 			render('register', {});
 		}
 	}

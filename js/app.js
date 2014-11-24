@@ -1,7 +1,4 @@
- log = true;
-
- var app = { 
-
+var app = {
     initialize: function() {
 	// Application Constructor
 		//Setup authenticator
@@ -10,10 +7,10 @@
 
 		this.loggedin = false;
 
-        this.bindEvents();
-		
+    this.bindEvents();
+
 		this.setupURLS();
-		
+
 		this.route();
     },
 
@@ -34,7 +31,7 @@
     	$(window).hashchange( this.route );	//temp for without cordova
     	this.onDeviceReady(); //temp for without cordova
     },
-	
+
     onDeviceReady: function() {
     // When everything is loaded, do this
     	//Setup routing
@@ -45,8 +42,12 @@
         $.ajaxSetup({
 		  'beforeSend': function(xhr) {
 		    if (localStorage.getItem('userToken')) {
-		      xhr.setRequestHeader('Authorization',
+		      xhr.setRequestHeader('AUTHORIZATION',
 		            'Bearer ' + localStorage.getItem('userToken'));
+		      if (app.userProfile){
+			      xhr.setRequestHeader('ID',
+			      		app.userProfile.user_id);
+			  }
 		    }
 		  }
 		});
@@ -58,8 +59,8 @@
 		userProfile = null;
 		redirect('#login');
     },
-	
-	
+
+
     route: function() {
     // route is called when a link is clicked
 	    var hash = window.location.hash;
@@ -69,7 +70,7 @@
 			} else if(navigator.device){
         		navigator.device.exitApp();
 			}
-	    } else 
+	    } else
 	    if (!app.loggedin){
 	    	log('user not logged in');
 	    	if (hash.match(app.registerURL)){
@@ -91,7 +92,7 @@
     		log('user is logged in!');
 		    //-- we are sure user is logged in from now on
 		    if (hash.match(app.overviewURL) || (hash == '')) {
-		        render('overview', {});
+		        var ov = new OverviewView();
 				return;
 		    } else if (hash.match(app.logoutURL)){
 		    	this.logout();
@@ -104,9 +105,9 @@
 		}
     }
 };
-
-log = function ( msg ){
-	if (log){
-		console.log(msg);
-	}
+var log = function( msg ){
+	dolog = true;
+    if (dolog){
+        console.log(msg);
+    }
 }

@@ -1,7 +1,17 @@
-function render(template, args, msginfo, msgerror) {
+var error = "";
+var info  = "";
+
+function render(template, args) {
     var source;
     var template;
     var path = 'js/templates/' +  template + '.html';
+
+    if (! args){
+        args = {};
+    }
+    args["msgerror"] = error;
+    args["msginfo"] = info;
+
     $.ajax({
         url: path,
         cache: true,
@@ -11,7 +21,16 @@ function render(template, args, msginfo, msgerror) {
             $('#maincontainer').html(template(args)).trigger('create');
         }
     });
+    
+    error = "";
+    info = "";
 };
 function redirect(location){
 	app.route(location);
+}
+function setErrorMessage(msg){
+    error = msg;
+}
+function setInfoMessage(msg){
+    info = msg;
 }

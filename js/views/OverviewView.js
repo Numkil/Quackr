@@ -3,13 +3,22 @@ var OverviewView = function (data) {
 
 	this.initialize = function () {
 	// View constructor
-		if (app.loggedin || this.checkLogin(data[0], data[1]) == true){
-			app.loggedin = true;
-			$('#username').text(app.userProfile.nickname);
-			render('overview');
+		if (app.loggedin == true){
+
+            $.get(
+                'http://d00med.net/quackr/secured/ping',
+                function(data) {  console.log('GET DONE'); console.log(data); }
+            );
+
+            render('overview', {
+            	name: app.userProfile.name,
+            	picture: app.userProfile.picture
+            });
+            setInfoMessage('Welcome back mate!');
 		} else {
 			//Re-render and show login page with login filled in
 			//TODO: Show error message
+			log('Not logged in for overview!');
 			redirect('#login');
 		}
 	}	
