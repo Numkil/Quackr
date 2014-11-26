@@ -5,13 +5,26 @@ var app = {
 		log('Setting up auth0Lock');
 		this.lock = new Auth0Lock('vmUb00t7jWrGtysEAiyX6CwC5XlgRR4Y', 'quackr.auth0.com');
 
-		this.loggedin = (localStorage.getItem('userToken') != null);
-
-    	this.bindEvents();
-
 		this.setupURLS();
 
-		this.route();
+		this.setupAJAX();
+
+		this.loggedin = (localStorage.getItem('userID') != null);
+		if (this.loggedin == true){
+			log('retrieving profile..');
+			$.ajax({
+				url: 'https://quackr.auth0.com/api/users/' + localStorage.getItem('userID'),
+				success: function (data){
+					app.userProfile = data;
+					log('User was logged in, profile set.');
+					app.bindEvents();
+					app.route();
+				}
+			});
+		} else {
+			this.bindEvents();
+			this.route(); //cordova temp
+		}
     },
 
     setupURLS: function() {
@@ -29,8 +42,22 @@ var app = {
     bindEvents: function() {
     // Bind all our events
     	document.addEventListener('deviceready', this.onDeviceReady, false); //cordova
-    	$(window).hashchange( this.route );	//temp for without cordova
-    	this.onDeviceReady(); //temp for without cordova
+    	this.onDeviceReady(); //temp cuz no cordova
+    },
+
+    setupAJAX: function() {
+    // Setup secure AjaX calls
+        log('Setting up secure AjaX calls');
+        $.ajaxSetup({
+		  'beforeSend': function(xhr) {
+		    if (localStorage.getItem('userToken')) {
+		      xhr.setRequestHeader('AUTHORIZATION', 'Bearer ' + localStorage.getItem('userToken'));
+		      if (app.userProfile){
+			      xhr.setRequestHeader('ID', app.userProfile.user_id);
+			  }
+		    }
+		  }
+		});
     },
 
     onDeviceReady: function() {
@@ -38,20 +65,6 @@ var app = {
     	//Setup routing
     	log('Setting up routes');
         $(window).on('hashchange', $.proxy(this.route, this));
-
-        log('Setting up secure AjaX calls');
-        $.ajaxSetup({
-		  'beforeSend': function(xhr) {
-		    if (localStorage.getItem('userToken')) {
-		      xhr.setRequestHeader('AUTHORIZATION',
-		            'Bearer ' + localStorage.getItem('userToken'));
-		      if (app.userProfile){
-			      xhr.setRequestHeader('ID',
-			      		app.userProfile.user_id);
-			  }
-		    }
-		  }
-		});
     },
 
     logout: function() {
@@ -92,18 +105,14 @@ var app = {
     	} else {
     		log('user is logged in!');
 		    //-- we are sure user is logged in from now on
-		    if (hash.match(app.overviewURL) || (hash == '')) {
-		        var ov = new OverviewView();
-				return;
-		    } else if (hash.match(app.logoutURL)){
+		    if (hash.match(app.logoutURL)){
 		    	this.logout();
 		    	return;
 		    } else if (hash.match(app.categoriesURL)){
 		    	var cv = new CategoriesView();
 		    	return;
 		    } else {
-	    	    log('ERROR Invalid URL while logged in: ' + hash);
-		    	render('overview', {});
+		    	var ov = new OverviewView();
 		    	return;
 		    }
 		}
