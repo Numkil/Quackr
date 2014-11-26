@@ -28,11 +28,13 @@ var LoginView = function (data) {
 			      log('Logged in successfully!');
 			      // Save the JWT token.
 			      localStorage.setItem('userToken', token);
+			      localStorage.setItem('userID', profile.user_id);
+			      log('userID set = ' + localStorage.getItem('userID'));
 			      // We are logged in from now on
 			      app.loggedin = true;
 			      // Save the profile
 			      app.userProfile = profile;
-			      setInfoMessage('Welcome back ' + profile.nickname);
+			      setInfoMessage('Welcome back ' + profile.given_name + "!");
 			      redirect('#overview');
 			    }
 			  });
