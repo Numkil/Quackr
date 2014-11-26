@@ -70,6 +70,7 @@ var app = {
     logout: function() {
     	app.loggedin = false;
     	localStorage.removeItem('token');
+    	localStorage.removeItem('userID');
 		userProfile = null;
 		redirect('#login');
     },
