@@ -5,9 +5,9 @@ var app = {
 		log('Setting up auth0Lock');
 		this.lock = new Auth0Lock('vmUb00t7jWrGtysEAiyX6CwC5XlgRR4Y', 'quackr.auth0.com');
 
-		this.loggedin = false;
+		this.loggedin = (localStorage.getItem('userToken') != null);
 
-    this.bindEvents();
+    	this.bindEvents();
 
 		this.setupURLS();
 
@@ -23,6 +23,7 @@ var app = {
 		this.overviewURL = /#overview/;
 		this.logoutURL = /#logout/;
 		this.exitURL = /#exit/;
+		this.categoriesURL = /#categories/;
     },
 
     bindEvents: function() {
@@ -97,11 +98,14 @@ var app = {
 		    } else if (hash.match(app.logoutURL)){
 		    	this.logout();
 		    	return;
+		    } else if (hash.match(app.categoriesURL)){
+		    	var cv = new CategoriesView();
+		    	return;
+		    } else {
+	    	    log('ERROR Invalid URL while logged in: ' + hash);
+		    	render('overview', {});
+		    	return;
 		    }
-
-    	    log('ERROR Invalid URL while logged in: ' + hash);
-	    	render('overview', {});
-	    	return;
 		}
     }
 };
