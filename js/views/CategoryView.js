@@ -1,24 +1,34 @@
-var CategoryView = function (data) {
+var CategoryView = function (id) {
 //View for the overview screen
 
 	this.initialize = function () {
 	// View constructor
 		if (app.loggedin == true){
 
-            log('Loading category...');
+            log('Loading category... ' + 'http://d00med.net/quackr/secured/category/' + id);
 
-            $.ajax('http://d00med.net/quackr/secured/category/' + data)
+            $.ajax('http://d00med.net/quackr/secured/category/' + id)
             	.done(function (category){
             		if (category == null){
-            			error(null, null, "categories empty");
-            			return;
-            		}
-            		log(category);
-            	})
- 				.error(function (request, status, error){
-            			setErrorMessage(error);
+            			setErrorMessage("Could not retrieve category.");
             			log('getCategory error: ' + error + " , " + request + " , " + status);
             			render('overview');
+            			return;
+            		} else {
+            			category = $.parseJSON(category);
+            			log(category);
+            			render('category', {
+			            	name: app.userProfile.name,
+		            		picture: app.userProfile.picture,
+		            		category: category
+            			});
+            		}
+            	})
+ 				.error(function (request, status, error){
+            			setErrorMessage("Could not retrieve category.");
+            			log('getCategory error: ' + error + " , " + request + " , " + status);
+            			render('overview');
+            			return;
         		});
   
 		} else {

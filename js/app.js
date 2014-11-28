@@ -43,7 +43,7 @@ var app = {
 		this.logoutURL = /#logout/;
 		this.exitURL = /#exit/;
 		this.categoriesURL = /#categories/;
-		this.categoryURL = /#category/;
+		this.categoryURL = /#questions/;
     },
 
     bindEvents: function() {
@@ -120,9 +120,11 @@ var app = {
 		    	var cv = new CategoriesView();
 		    	return;
 		    } else if (hash.match(app.categoryURL)){
-		    	var idmatch = "?id=(\d+)";
-		    	if (hash.match(idmatch)){
-		    		var cv = new CategoryView();
+		    	var idmatch = /\?id=(\d+)/;
+		    	var id = hash.match(idmatch)[1];
+		    	log('category id: ' + id);
+		    	if (id){
+		    		var cv = new CategoryView(id);
 		    	} else {
 		    		setErrorMessage("No category chosen!");
 		    		redirect("#overview");
