@@ -19,6 +19,12 @@ var app = {
 					log('User was logged in, profile set.');
 					app.bindEvents();
 					app.route();
+				},
+				error: function (data){
+					log('Token has expired.');
+					app.loggedin = false;
+					app.bindEvents();
+					app.route();
 				}
 			});
 		} else {
@@ -37,6 +43,7 @@ var app = {
 		this.logoutURL = /#logout/;
 		this.exitURL = /#exit/;
 		this.categoriesURL = /#categories/;
+		this.categoryURL = /#category/;
     },
 
     bindEvents: function() {
@@ -112,6 +119,14 @@ var app = {
 		    } else if (hash.match(app.categoriesURL)){
 		    	var cv = new CategoriesView();
 		    	return;
+		    } else if (hash.match(app.categoryURL)){
+		    	var idmatch = "?id=(\d+)";
+		    	if (hash.match(idmatch)){
+		    		var cv = new CategoryView();
+		    	} else {
+		    		setErrorMessage("No category chosen!");
+		    		redirect("#overview");
+		    	}
 		    } else {
 		    	var ov = new OverviewView();
 		    	return;

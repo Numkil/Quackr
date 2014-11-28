@@ -7,8 +7,12 @@ var CategoriesView = function (data) {
 
             log('Loading categories..');
 
-            $.ajax('http://d00med.net/quackr/categories')
+            $.ajax('http://d00med.net/quackr/secured/categories')
             	.done(function (categories){
+            		if (categories == null){
+            			error(null, null, "categories empty");
+            			return;
+            		}
             		categories = $.parseJSON(categories);
             		log(categories);
             		render('categories', {
