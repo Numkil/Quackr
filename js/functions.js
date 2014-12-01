@@ -20,6 +20,14 @@ function render(template, args) {
     args["msginfo"]  = info;
     args["profile"]  = app.userProfile;
 
+    if (!app.userProfile){
+        renderPartial('guestmenu', args);
+    } else {
+        renderPartial('menu', args);
+    }
+
+    log(Handlebars.partials);
+
     $.ajax({
         url: path,
         cache: true,
@@ -33,10 +41,25 @@ function render(template, args) {
     loading("hide");
     error = "";
     info = "";
-};
+}
+
+function renderPartial(name, args){
+    var path = 'js/templates/partials/' +  name + '.html';
+    $.ajax({
+        async: false,
+        url: path,
+        cache: true,
+        success: function (data) {
+            source = data;
+            Handlebars.registerPartial(name, source);
+            log('Partial ' + name + ' rendered');
+        }
+    });
+}
 
 function redirect(location){
     loading("show");
+    history.pushState("", document.title, window.location.pathname);    
     if (location.charAt(0) != '#'){
         location = '#' + location;
     }

@@ -38,6 +38,7 @@ var app = {
 		this.categoriesURL = /#categories/;
 		this.categoryURL = /#category/;
 		this.questionsURL = /#questions/;
+		this.questionURL = /#question/;
     },
 
     bindEvents: function() {
@@ -132,15 +133,17 @@ var app = {
 		    		setErrorMessage("No category chosen!");
 		    		redirect("overview");
 		    	}
+		    	return;
 		    }  else if (hash.match(app.questionsURL)){
 		    	var qid = this.getID(hash);
 		    	if (qid){
 		    		var qv = new QuestionsView(qid);
 		    	} else {
 		    		log('no category id given');
-		    		setErrorMessage("No question chosen!");
+		    		setErrorMessage("No category chosen!");
 		    		redirect('overview');
 		    	}
+		    	return;
 		    } else if (hash.match(app.questionURL)){
 		    	var qid = this.getID(hash);
 		    	if (qid){
@@ -150,6 +153,7 @@ var app = {
 		    		setErrorMessage("No question chosen!");
 		    		redirect('overview');
 		    	}
+		    	return;
 		    } else {
 		    	var ov = new OverviewView();
 		    	return;
