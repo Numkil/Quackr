@@ -5,31 +5,17 @@ var CategoryView = function (id) {
 	// View constructor
 		if (app.loggedin == true){
 
-            log('Loading category... ' + 'http://d00med.net/quackr/secured/category/' + id);
+            log('Loading category... ');
 
-            $.ajax('http://d00med.net/quackr/secured/category/' + id)
-            	.done(function (category){
-            		if (category == null){
-            			setErrorMessage("Could not retrieve category.");
-            			log('getCategory error: ' + error + " , " + request + " , " + status);
-            			render('overview');
-            			return;
-            		} else {
-            			category = $.parseJSON(category);
-            			log(category);
-            			render('category', {
-			            	name: app.userProfile.name,
-		            		picture: app.userProfile.picture,
-		            		category: category
-            			});
-            		}
-            	})
- 				.error(function (request, status, error){
-            			setErrorMessage("Could not retrieve category.");
-            			log('getCategory error: ' + error + " , " + request + " , " + status);
-            			render('overview');
-            			return;
-        		});
+            results = app.model.getQuestions(id);
+            if (results){
+                  render('questions', {
+                        questions: results
+                  });
+            } else {
+                  setErrorMessage('Error retrieving questions.');
+                  goToScreen();
+            }
   
 		} else {
 			//Re-render and show login page with login filled in

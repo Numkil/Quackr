@@ -73,7 +73,7 @@ var app = {
     	localStorage.removeItem('token');
     	localStorage.removeItem('userID');
 		this.userProfile = null;
-		history.pushState("", document.title, window.location.pathname);
+		history.pushState("", document.title, window.location.pathname); //Reset hash to prevent logging us out when logging in!
 		redirect('login');
     },
 

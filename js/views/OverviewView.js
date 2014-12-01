@@ -5,6 +5,10 @@ var OverviewView = function (data) {
 	// View constructor
 		if (app.loggedin == true){
 			//log(app.userProfile);
+			
+			//log('random question:');
+			//log(app.model.getRandomQuestion('2'));
+
             render('overview', {
             	name: app.userProfile.name,
             	picture: app.userProfile.picture

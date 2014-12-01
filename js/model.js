@@ -13,14 +13,18 @@ var Model = function () {
 					setErrorMessage("Could not retrieve category. Something went wrong!");
 					log('getData error failed but completed, data = null: ' + url);
 				} else {
-					log("raw data:");
 					log(data);
 					if (typeof data === "object" && data !== null) {
 						log('object returned');
 						result = data;
 					} else {
 						log('JSON returned');
-						result = data = $.parseJSON(data);
+						try {
+							result = $.parseJSON(data);
+						} catch (err) {
+							log('getData Json parse error: ' + err);
+							result = false;
+						}
 					}
 				}
 			})

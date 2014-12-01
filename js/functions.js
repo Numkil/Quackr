@@ -60,6 +60,6 @@ function goToScreen() {
     if (window.location.hash){
         window.history.back();//edirect(window.location.hash.substring(1));
     } else {
-        redirect('overview', {});
+        redirect('overview');
     }
 }
