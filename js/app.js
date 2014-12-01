@@ -5,6 +5,8 @@ var app = {
 		log('Setting up auth0Lock');
 		this.lock = new Auth0Lock('vmUb00t7jWrGtysEAiyX6CwC5XlgRR4Y', 'quackr.auth0.com');
 
+		this.model = new Model();
+
 		this.setupURLS();
 
 		this.setupAJAX();
@@ -12,25 +14,17 @@ var app = {
 		this.loggedin = (localStorage.getItem('userID') != null);
 		if (this.loggedin == true){
 			log('retrieving profile..');
-			$.ajax({
-				url: 'https://quackr.auth0.com/api/users/' + localStorage.getItem('userID'),
-				success: function (data){
-					app.userProfile = data;
-					log('User was logged in, profile set.');
-					app.bindEvents();
-					app.route();
-				},
-				error: function (data){
-					log('Token has expired.');
-					app.loggedin = false;
-					app.bindEvents();
-					app.route();
-				}
-			});
-		} else {
-			this.bindEvents();
-			this.route(); //cordova temp
+			this.userProfile = this.model.getProfile();
+			log(this.userProfile);
+			if (!this.userProfile) {
+				log('Token has expired.');
+				setInfoMessage('Your session has expired.');
+				app.loggedin = false;
+			}
 		}
+
+		this.bindEvents();
+		this.route(); //!!! temporary for testing
     },
 
     setupURLS: function() {
@@ -79,7 +73,7 @@ var app = {
     	localStorage.removeItem('token');
     	localStorage.removeItem('userID');
 		userProfile = null;
-		redirect('#login');
+		redirect('login');
     },
 
 
@@ -135,10 +129,5 @@ var app = {
 		    }
 		}
     }
+
 };
-var log = function( msg ){
-	dolog = true;
-    if (dolog){
-        console.log(msg);
-    }
-}

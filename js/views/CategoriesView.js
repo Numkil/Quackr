@@ -4,34 +4,25 @@ var CategoriesView = function (data) {
 	this.initialize = function () {
 	// View constructor
 		if (app.loggedin == true){
+			//Show all categories
 
             log('Loading categories..');
-
-            $.ajax('http://d00med.net/quackr/secured/categories')
-            	.done(function (categories){
-            		if (categories == null){
-            			error(null, null, "categories empty");
-            			return;
-            		}
-            		categories = $.parseJSON(categories);
-            		log(categories);
-            		render('categories', {
-		            	name: app.userProfile.name,
-		            	picture: app.userProfile.picture,
-		            	categories: categories
-			        });
-            	})
- 				.error(function (request, status, error){
-            			setErrorMessage(error);
-            			log('getCategories error: ' + error + " , " + request + " , " + status);
-            			render('overview');
-        		});
-  
+            cats = app.model.getCategories();
+            if (cats){
+            	log('cats good');
+            	log(cats);
+            	render('categories', {
+            		categories: cats
+            	});
+            } else {
+            	setErrorMessage('Error retrieving category.');
+            	goToScreen();
+            }
 		} else {
 			//Re-render and show login page with login filled in
-			//TODO: Show error message
+			setErrorMessage('You are not logged in!');
 			log('Not logged in for categories!');
-			redirect('#login');
+			redirect('login');
 		}
 	}	
 
