@@ -15,7 +15,6 @@ var app = {
 		if (this.loggedin == true){
 			log('retrieving profile..');
 			this.userProfile = this.model.getProfile();
-			log(this.userProfile);
 			if (!this.userProfile) {
 				log('Token has expired.');
 				setInfoMessage('Your session has expired.');
@@ -37,7 +36,8 @@ var app = {
 		this.logoutURL = /#logout/;
 		this.exitURL = /#exit/;
 		this.categoriesURL = /#categories/;
-		this.categoryURL = /#questions/;
+		this.categoryURL = /#category/;
+		this.questionsURL = /#questions/;
     },
 
     bindEvents: function() {
@@ -69,11 +69,22 @@ var app = {
     },
 
     logout: function() {
-    	app.loggedin = false;
+    	this.loggedin = false;
     	localStorage.removeItem('token');
     	localStorage.removeItem('userID');
-		userProfile = null;
+		this.userProfile = null;
+		history.pushState("", document.title, window.location.pathname);
 		redirect('login');
+    },
+
+    getID: function(url) {
+    	var idmatch = /\?id=(\d+)/;
+    	var matches = url.match(idmatch);
+    	if (matches){
+    		return matches[1];
+    	} else {
+    		result = false;
+    	}
     },
 
 
@@ -114,14 +125,21 @@ var app = {
 		    	var cv = new CategoriesView();
 		    	return;
 		    } else if (hash.match(app.categoryURL)){
-		    	var idmatch = /\?id=(\d+)/;
-		    	var id = hash.match(idmatch)[1];
-		    	log('category id: ' + id);
-		    	if (id){
-		    		var cv = new CategoryView(id);
+		    	var cid = this.getID(hash);
+		    	if (cid){
+		    		var cv = new CategoryView(cid);
 		    	} else {
 		    		setErrorMessage("No category chosen!");
-		    		redirect("#overview");
+		    		redirect("overview");
+		    	}
+		    }  else if (hash.match(app.questionsURL)){
+		    	var qid = this.getID(hash);
+		    	if (qid){
+		    		var qv = new QuestionsView(qid);
+		    	} else {
+		    		log('no question id given');
+		    		setErrorMessage("No question chosen!");
+		    		redirect("overview");
 		    	}
 		    } else {
 		    	var ov = new OverviewView();
