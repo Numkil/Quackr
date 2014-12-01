@@ -137,9 +137,18 @@ var app = {
 		    	if (qid){
 		    		var qv = new QuestionsView(qid);
 		    	} else {
+		    		log('no category id given');
+		    		setErrorMessage("No question chosen!");
+		    		redirect('overview');
+		    	}
+		    } else if (hash.match(app.questionURL)){
+		    	var qid = this.getID(hash);
+		    	if (qid){
+		    		var qv = new QuestionView(qid);
+		    	} else {
 		    		log('no question id given');
 		    		setErrorMessage("No question chosen!");
-		    		redirect("overview");
+		    		redirect('overview');
 		    	}
 		    } else {
 		    	var ov = new OverviewView();
