@@ -17,7 +17,7 @@ var app = {
 			this.userProfile = this.model.getProfile();
 			if (!this.userProfile) {
 				log('Token has expired.');
-				setInfoMessage('Your session has expired.');
+				setInfoMessage('Your session has expired. Please login again.');
 				app.loggedin = false;
 			}
 		}

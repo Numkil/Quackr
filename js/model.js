@@ -10,7 +10,6 @@ var Model = function () {
 		})
 			.done(function (data){
 				if (!data) {
-					setErrorMessage("Could not retrieve category. Something went wrong!");
 					log('getData error failed but completed, data = null: ' + url);
 				} else {
 					log(data);
@@ -29,7 +28,6 @@ var Model = function () {
 				}
 			})
 			.error(function (request, status, error){
-				setErrorMessage("Could not retrieve category. Something went wrong!");
 				log('getData error failed : ' + input + ", " + request + ", " + status + ", " + error);
 				log(error);
 			});
