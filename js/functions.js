@@ -26,7 +26,7 @@ function render(template, args) {
         renderPartial('menu', args);
     }
 
-    log(Handlebars.partials);
+    renderPartial('messages', args);
 
     $.ajax({
         url: path,
