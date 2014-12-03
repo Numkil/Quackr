@@ -21,9 +21,9 @@ function render(template, args) {
     args["profile"]  = app.userProfile;
 
     if (!app.userProfile){
-        renderPartial('guestmenu', args);
+        renderPartial('guestmenu', {});
     } else {
-        renderPartial('menu', args);
+        renderPartial('menu', {});
     }
 
     renderPartial('messages', args);

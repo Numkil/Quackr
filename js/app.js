@@ -39,6 +39,7 @@ var app = {
 		this.categoryURL = /#category/;
 		this.questionsURL = /#questions/;
 		this.questionURL = /#question/;
+		this.profileURL = /#profile/;
     },
 
     bindEvents: function() {
@@ -154,6 +155,8 @@ var app = {
 		    		redirect('overview');
 		    	}
 		    	return;
+		    } else if (hash.match(app.profileURL)){
+		    	var pv = new ProfileView();
 		    } else {
 		    	var ov = new OverviewView();
 		    	return;

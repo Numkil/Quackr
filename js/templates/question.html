@@ -17,29 +17,37 @@
 
 <div data-role="content" role="main">
   <div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
-  {{> messages}}
-  <br>
-  {{#with question}}
-  <div class="innerdiv">
-    <div class="ui-corner-all custom-corners">
-      <div class="ui-bar ui-bar-a">
-       <h3>Question <strong>Level {{lvl}}</strong></h3>
+    {{> messages}}
+    <br>
+    {{#with question}}
+    <div class="innerdiv">
+      <div class="ui-corner-all custom-corners">
+        <div class="ui-bar ui-bar-a">
+         <h3>Question <strong>Level {{lvl}}</strong></h3>
+       </div>
+       <div class="ui-body ui-body-a">
+         <p>
+          {{question}}
+         </p>
+         <br>
+         <div class="row">
+          {{#each propanswers}}
+          <label class="radio">
+              <input type="radio" name="answer" id="answer-{{{id}}}" value="{{{propanswer}}}" data-toggle="radio">
+              <span class="icons">
+                <span class="icon-unchecked"></span>
+                <span class="icon-checked"></span>
+              </span>
+              {{{propanswer}}}
+          </label>
+          {{/each}}
+          <div data-role="fieldcontain">
+      </div>
+        </div>
+       </div>
      </div>
-     <div class="ui-body ui-body-a">
-       <p>
-        {{question}}
-       </p>
-       <br>
-       <fieldset data-role="controlgroup">
-        {{#each propanswers}}
-        <input type="radio" name="answer" id="answer-{{{id}}}" value="{{{propanswer}}}" />
-        <label for="answer-{{{id}}}">{{{propanswer}}}</label>
-        {{/each}}
-       </fieldset>
-     </div>
-   </div>
- </div>
- {{/with}}
-</div>
+    </div>
+    {{/with}}
+  </div>
 </div>
 </div>
