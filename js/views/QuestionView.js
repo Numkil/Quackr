@@ -13,6 +13,7 @@ var QuestionView = function (data) {
             	render('question', {
             		question: result
             	});
+            	createProgressBar('pb_question', 40);
             } else {
             	setErrorMessage('Error retrieving question.');
             	goToScreen();
