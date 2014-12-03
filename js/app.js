@@ -53,7 +53,7 @@ var app = {
         $.ajaxSetup({
 		  'beforeSend': function(xhr) {
 		    if (localStorage.getItem('userToken')) {
-		      xhr.setRequestHeader('AUTHORIZATION', 'Bearer ' + localStorage.getItem('userToken'));
+		      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('userToken'));
 		      if (app.userProfile){
 			      xhr.setRequestHeader('ID', app.userProfile.user_id);
 			  }
