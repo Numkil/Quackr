@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "com.phonegap.example" 
+        version     = "1.0.0" >
+
+    <name>Quackr</name>
+
+    <description>
+        Knowledge and gaming combined. Quack 'em! 
+    </description>
+
+    <author href="http://d00med.net/" email="hazcod@outlook.be">
+        Niels Hofmans & Kevin Jossart
+    </author>
+
+    <!-- cache data -->
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <!-- get location to find nearby competitors -->
+    <feature name="http://api.phonegap.com/1.0/geolocation"/>
+    <!-- check network connection online/offline -->
+    <feature name="http://api.phonegap.com/1.0/network"/>
+</widget>
