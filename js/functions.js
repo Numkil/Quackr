@@ -86,3 +86,40 @@ function goToScreen() {
         redirect('overview');
     }
 }
+
+function createProgressBar(id, progress){
+    var element = $('#' + id);
+    if (element){
+        // Create the progressbar element
+        element.attr({'name':'slider','id':'slider-' + id,'data-highlight':'true','min':'0','max':'100','value':progress,'type':'range'}).trigger('create').slider({
+            create: function( event, ui ) {
+                $(this).parent().find('input').hide();
+                $(this).parent().find('input').css('margin-left','-9999px'); // Fix for some FF versions
+                $(this).parent().find('.ui-slider-track').css('margin','0 15px 0 15px');
+                $(this).parent().find('.ui-slider-handle').hide();
+            }
+        }).slider("refresh");
+        log('progressbar:');
+        log(element);  
+        
+        // Gradually fill the progressbar
+        var i = 1;
+        var interval = setInterval(function(){
+            progressBar.setValue('#slider-' + id,i);
+            if(i >= progress) {
+                clearInterval(interval);
+            }
+            i++;
+        }, 6);
+    } else {
+        log('Could not find progressbar ' + id);
+    }  
+}
+
+var progressBar = {
+    setValue:function(id, value) {
+        $(id).val(value);
+        $(id).slider("refresh");
+    }
+}
+
