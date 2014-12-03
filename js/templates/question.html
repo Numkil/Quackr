@@ -8,7 +8,6 @@
   </div>
 </div>
 <!-- SLIDEMENU STOP -->
-
 <div data-role="header">
   <a data-iconpos="notext" href="#panel" data-role="button" data-icon="flat-menu"></a>
   <h1>Question</h1>
@@ -16,7 +15,7 @@
 </div>
 
 <div data-role="content" role="main">
-  <div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
+  <div class="centerdiv">
     {{> messages}}
     <br>
     {{#with question}}
@@ -41,8 +40,6 @@
               {{{propanswer}}}
           </label>
           {{/each}}
-          <div data-role="fieldcontain">
-      </div>
         </div>
        </div>
      </div>
