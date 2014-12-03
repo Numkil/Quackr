@@ -13,6 +13,12 @@
     <author href="http://d00med.net/" email="hazcod@outlook.be">
         Niels Hofmans &amp; Kevin Jossart
     </author>
+    
+    <!-- plugins -->
+    <gap:plugin name="org.apache.cordova.geolocation" />
+    <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="org.apache.cordova.dialogs" />
+    <gap:plugin name="org.apache.cordova.file" />
 
     <!-- cache data -->
     <feature name="http://api.phonegap.com/1.0/file"/>
