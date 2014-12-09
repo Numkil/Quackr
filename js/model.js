@@ -54,6 +54,10 @@ var Model = function () {
 	this.getProfile = function() {
 		return this.getData(this.profileURL);
 	},
+
+	this.getCategoryAnswered = function(catid) {
+		return this.getData(this.userURL + catid + '/progress');
+	},
 	
 	this.setupURLs = function () {
 		this.baseURL = 'http://d00med.net/quackr/';
@@ -63,6 +67,7 @@ var Model = function () {
 		this.categoriesURL = this.secURL + 'categories';
 		this.categoryURL   = this.secURL + 'category/';
 		this.questionURL   = this.secURL + 'question/';
+		this.userURL 	   = this.secURL + 'user/';
 	},
 
 	this.initialize = function () {

@@ -83,7 +83,11 @@ $( document ).ready(
             return Math.min(this.options.max, Math.max(this.min, val));
         },
         _percentage: function () {
-            return Math.round(100 * this._value() / this.options.max);
+            if (this.options.max == 0){
+                return 0;
+            } else {
+                return Math.round(100 * this._value() / this.options.max);
+            }
         },
         _refreshValue: function () {
             var value = this.value();
@@ -380,7 +384,7 @@ $( document ).ready(
             throw '[Error]: pbar is already running.';
         } else if (this.indefinite) {
             throw '[Error]: pbar is indefinite.';
-        } else {
+        } else if (this.max != 0){
             (function loop(instance) {
                 instance.fillProgressBar = setTimeout((function (inst) {
                     return function () {

@@ -13,28 +13,35 @@ var QuestionView = function (data) {
                   	render('question', {
                   		question: result
                   	});
-                    $.getScript('js/progressbar.js').done(function(){
-                          //create the progressbar
-                          jQMProgressBar('pb_question')
-                            .setOuterTheme('b')
-                            .setInnerTheme('e')
-                            .isMini(true)
-                            .setMax(100)
-                            .setStartFrom(0)
-                            .setInterval(10)
-                            .showCounter(true)
-                            .build()
-                            .run();
-                    });
-                    /**
+                    var answered = app.model.getCategoryAnswered(data);
+                    if (answered){
+                      var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
+                      log('Current category progress: ' + progress);
+                      $.getScript('js/progressbar.js').done(function(){
+                            //create the progressbar
+                            jQMProgressBar('pb_question')
+                              .setOuterTheme('b')
+                              .setInnerTheme('e')
+                              .isMini(true)
+                              .setMax(progress)
+                              .setStartFrom(0)
+                              .setInterval(10)
+                              .showCounter(true)
+                              .build()
+                              .run();
+                      });
+                    }
                   	//hook the radiobuttons
-                  	$('input[name=answer]').change(function() {
+                  	$(".radio").bind( "change", function() {
+                      log('CHANGE');
             					selected = $(this).val();
             					log(selected);
             					log($(this).val());
             					$('#go').button('enable').button('refresh');
             					log('selected: ' + selected);
             				});
+                    log('radiobuttons binded.');
+                    /**
                   	//hook the button
                   	$('button#go').attr("disabled", "disabled");
                   	$('button#go').click(function(){
@@ -54,6 +61,7 @@ var QuestionView = function (data) {
                   	});
                   	log('button hooked');
                     **/
+                    
                   } else {
                   	setErrorMessage('Error retrieving question.');
                   	goToScreen();

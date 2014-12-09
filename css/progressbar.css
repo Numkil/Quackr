@@ -43,6 +43,10 @@
     width: 100%;
     z-index: 2;
 }
+.ui-jqpm-progressbar-red 
+{
+    background-color: red;
+}
 .ui-jqm-progressbar-outer-a
 {
     background: #222;
