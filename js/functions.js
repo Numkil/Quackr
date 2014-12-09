@@ -16,6 +16,7 @@ function render(template, args) {
     if (! args){
         args = {};
     }
+    
     args["msgerror"] = error;
     args["msginfo"]  = info;
     args["profile"]  = app.userProfile;
