@@ -14,6 +14,32 @@ var QuestionView = function (data) {
             		question: result
             	});
             	createProgressBar('pb_question', 40);
+    	                  	//hook the radiobuttons
+          	$('input[name=answer]:checked').change(function() {
+      				selected = $(this).val();
+      				log(selected);
+      				log($(this).val());
+      				$('#go').button('enable').button('refresh');
+      				log('selected: ' + selected);
+      			});
+          	//hook the button
+          	$('button#go').attr("disabled", "disabled");
+          	$('button#go').click(function(){
+          		//get answer
+          		var correct;
+          		result.propanswers.forEach(function(entry){ //dirty, should be done better on API side
+          			if (entry.correct == '1'){
+          				correct = entry.id;
+          			}
+          		});
+          		//validate question
+          		if (correct == selected){
+          			log('correct');
+          		} else {
+          			log('wrong');
+          		}
+          	});
+          	log('button hooked');
             } else {
             	setErrorMessage('Error retrieving question.');
             	goToScreen();
