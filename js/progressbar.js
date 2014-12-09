@@ -83,7 +83,7 @@ $( document ).ready(
             return Math.min(this.options.max, Math.max(this.min, val));
         },
         _percentage: function () {
-            return 100 * this._value() / this.options.max;
+            return Math.round(100 * this._value() / this.options.max);
         },
         _refreshValue: function () {
             var value = this.value();
@@ -386,7 +386,7 @@ $( document ).ready(
                     return function () {
                         var thisValue = $(['#', inst.id].join(""))
                             .progressbar('option', 'value'),
-                            counter = !isNaN(thisValue) ? (thisValue + 1) : 1;
+                            counter = !isNaN(thisValue) ? thisValue + 1 : 1;
                         if (counter > inst.max) {
                             clearTimeout(inst.fillProgressBar);
                         } else {
