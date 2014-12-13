@@ -31,37 +31,6 @@ var QuestionView = function (data) {
                               .run();
                       });
                     }
-                  	//hook the radiobuttons
-                  	$(".radio").bind( "change", function() {
-                      log('CHANGE');
-            					selected = $(this).val();
-            					log(selected);
-            					log($(this).val());
-            					$('#go').button('enable').button('refresh');
-            					log('selected: ' + selected);
-            				});
-                    log('radiobuttons binded.');
-                    /**
-                  	//hook the button
-                  	$('button#go').attr("disabled", "disabled");
-                  	$('button#go').click(function(){
-                  		//get answer
-                  		var correct;
-                  		result.propanswers.forEach(function(entry){ //dirty, should be done better on API side
-                  			if (entry.correct == '1'){
-                  				correct = entry.id;
-                  			}
-                  		});
-                  		//validate question
-                  		if (correct == selected){
-                  			log('correct');
-                  		} else {
-                  			log('wrong');
-                  		}
-                  	});
-                  	log('button hooked');
-                    **/
-                    
                   } else {
                   	setErrorMessage('Error retrieving question.');
                   	goToScreen();
