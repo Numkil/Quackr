@@ -74,10 +74,18 @@ var Model = function () {
 		this.userURL 	   = this.secURL + 'user/';
 	},
 
+	this.correct = function (questionid) {
+		//TODO
+	}
+
+	this.incorrect = function (questionid) {
+		//TODO
+	}
+
 	this.initialize = function () {
 	// Model constructor
 		this.setupURLs();
-	}
+	},
 
 	this.initialize();
 };

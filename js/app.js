@@ -102,7 +102,15 @@ var app = {
     },
 
     guessQuestion: function(catid, questionid, answerid) {
-    	//TODO
+    	var correct = this.model.guessQuestion(questionid, answerid);
+    	if (correct){
+    		//go to next random question
+    		redirect(this.questionsURL);;
+    	} else {
+    		//redisplay with error
+    		setErrorMessage('Woops! You did not get it quite right..');
+    		redirect('question?id=' + questionid);
+    	}
     },
 
 
