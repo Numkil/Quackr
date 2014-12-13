@@ -20,7 +20,7 @@ var QuestionView = function (data) {
               .run();
       });
     }
-  }
+  },
 
 	this.initialize = function () {
 	// View constructor
