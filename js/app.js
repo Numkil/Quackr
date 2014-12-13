@@ -40,7 +40,6 @@ var app = {
 		this.questionsURL = /#random/;
 		this.questionURL = /#question/;
 		this.profileURL = /#profile/;
-		this.guessURL = /#guess/;
     },
 
     bindEvents: function() {
@@ -98,18 +97,6 @@ var app = {
     		return result[1];
     	} else {
     		return false;
-    	}
-    },
-
-    guessQuestion: function(catid, questionid, answerid) {
-    	var correct = this.model.guessQuestion(questionid, answerid);
-    	if (correct){
-    		//go to next random question
-    		redirect(this.questionsURL);;
-    	} else {
-    		//redisplay with error
-    		setErrorMessage('Woops! You did not get it quite right..');
-    		redirect('question?id=' + questionid);
     	}
     },
 
@@ -182,18 +169,6 @@ var app = {
 		    	return;
 		    } else if (hash.match(app.profileURL)){
 		    	var pv = new ProfileView();
-		    	return;
-		    } else if (hash.match(app.guessURL)){
-		    	var catid = this.getPar(hash, 'c');
-		    	var qid = this.getPar(hash, 'q');
-		    	var aid = this.getPar(hash, 'a');
-		    	if (!catid || !qid || !aid){
-		    		setErrorMessage('Something went wrong. We redirected you back here.');
-		    		log('Malformed URL! Missing argument(s): ' + hash);
-		    		redirect('overview');
-		    	} else {
-		    		this.guessQuestion(catid, qid, aid);
-		    	}
 		    	return;
 		    } else {
 		    	log(hash);
