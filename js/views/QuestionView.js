@@ -10,8 +10,9 @@ var QuestionView = function (data) {
                   if (result){
                   	log(result);
                   	var selected;
+                    result.catid = data;
                   	render('question', {
-                  		question: result
+                  		question: result,
                   	});
                     var answered = app.model.getCategoryAnswered(data);
                     if (answered){
