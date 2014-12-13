@@ -60,7 +60,7 @@ var Model = function () {
 	},
 
 	this.getRandomQuestions = function(catid, count) {
-		return this.getData(this.questionURL + catid + '/random/' + count);
+		return this.getData(this.categoryURL + catid + '/random/' + count);
 	},
 	
 	this.setupURLs = function () {

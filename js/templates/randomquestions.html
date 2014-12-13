@@ -27,15 +27,19 @@
      <div class="ui-body ui-body-a">
       <p>We listed some categories and their questions for you to choose.. click on the category or question.</p>
       <br>
-       <ul>
+      <div data-role="content" role="main">
+       <ul data-role="listview" data-inset="true">
         {{#each entries}}
-          <h4><a href="#category?id={{this.category.id}}">{{this.category.categoryname}}</a></h4>
-          {{#each this.questions}}
-            <li><a href="#question?id={{this.id}}">{{{this.question}}}</a></li>
-          {{/each}}
+          <li data-role="list-divider" data-theme="a"><a href="#category?id={{this.category.id}}">{{this.category.categoryname}}</a></li>
+          {{#with questions}}
+            {{#each questions}}
+              <li><a href="#question?id={{this.id}}">{{{question}}}</a></li>
+            {{/each}}
+          {{/with}}
         {{/each}}
       </ul>
      </div>
+    </div>
    </div>
  </div>
 </div>
