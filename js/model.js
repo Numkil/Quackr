@@ -34,12 +34,38 @@ var Model = function () {
 		return result;
 	},
 
+	this.getImage = function(input,ext) {
+		result = false;
+		log('getting image ' + input);
+
+		var img = new Image();
+		img.src = input;
+		img.width = 100;
+		img.height = 100;
+	
+	    // Create an empty canvas element
+	    var canvas = document.createElement("canvas");
+	    canvas.width = img.width;
+	    canvas.height = img.height;
+
+	    // Copy the image contents to the canvas
+	    var ctx = canvas.getContext("2d");
+	    ctx.drawImage(img, 0, 0);
+
+	    if (!ext){
+	    	ext = "jpg";
+	    }
+	    var dataURL = canvas.toDataURL("image/" + ext);
+
+	    return dataURL;//return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+	},
+
 	//Requirement: questions must be fetched at least once on first boot
 	this.getData = function (input){
 		var ttl = this.getLocal('TTL_' + input.trim());
 		log('TTL is ' + ttl + ' for ' + input);
-		var now = new Date().format("yyMMdd");
-		if (!ttl || (ttl < now){
+		var now = new Date();
+		if ((!ttl) || (Date(ttl) < now)){
 			log('TTL expired or not existant. Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
@@ -70,18 +96,7 @@ var Model = function () {
 
 	this.getQuestions = function(catid) {
 		//GET secured/category/{id}(/random)
-		var cached = this.getLocal('questions');
-		if (this.getLocal('TTL_questions') > )
-		if (!cached){
-			cached = this.getData(this.categoryURL + catid);
-			if (cached){
-				this.putLocal('questions', cached);
-				this.putLocal('TTL_questions', new Date().format("ddMMyy"))
-			}
-		} else {
-			return cached;
-		}
-		return 
+		return this.getData(this.categoryURL + catid);
 	},
 
 	this.getQuestion = function(questionid) {
@@ -97,7 +112,11 @@ var Model = function () {
 	},
 
 	this.getProfile = function() {
-		return this.getData(this.profileURL);
+		var result = this.getData(this.profileURL);
+		// double pass to include the actual image instead of the URL
+		result.picture = this.getImage(result.picture);
+		log(result.picture);
+		return result;
 	},
 
 	this.getCategoryAnswered = function(catid) {
@@ -147,14 +166,14 @@ var Model = function () {
 	this.incorrect = function (questionid) {
 		var wrong = this.getLocal('wrong');
 		if (wrong){
-			wrong = wrong +1;
+			wrong.put(questionid);
 			if (this.setNumbers()){
 				this.removeLocal('wrong');
 			} else {
 				this.putLocal('wrong', wrong);
 			}
 		} else {
-			this.putLocal('wrong', 1);
+			this.putLocal('wrong', [ questionid ]);
 		}
 	},
 
@@ -180,7 +199,7 @@ var Model = function () {
 		log('Network status: ' + this.online);
 
 		//is this our first run?
-		if (!getLocal('first')){
+		if (!this.getLocal('first')){
 			//redirect('we_need_internet');
 			//TODO: show page until internet connection is reached
 			//TODO: fetchFirstLevels(all_categories)

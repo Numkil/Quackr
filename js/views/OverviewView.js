@@ -9,10 +9,7 @@ var OverviewView = function (data) {
 			//log('random question:');
 			//log(app.model.getRandomQuestion('2'));
 
-            render('overview', {
-            	name: app.userProfile.name,
-            	picture: app.userProfile.picture
-            });
+            render('overview', {});
 		} else {
 			//Re-render and show login page with login filled in
 			//TODO: Show error message

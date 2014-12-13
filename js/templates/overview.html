@@ -26,7 +26,7 @@
      </div>
      <div class="ui-body ui-body-a">
        <p>
-        <img src="{{picture}}" alt="profile picture" width="60" height="60" />
+        <img id="profilepic" src="" alt="profile picture" width="60" height="60" />
         {{name}}
       </p>
      </div>
@@ -35,3 +35,6 @@
 </div>
 </div>
 </div>
+<script type="text/javascript">
+  $('#profilepic').attr( 'src', '{{profile.picture}}');
+</script>
