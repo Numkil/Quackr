@@ -58,6 +58,10 @@ var Model = function () {
 	this.getCategoryAnswered = function(catid) {
 		return this.getData(this.userURL + catid + '/progress');
 	},
+
+	this.getRandomQuestions = function(catid, count) {
+		return this.getData(this.questionURL + catid + '/random/' + count);
+	},
 	
 	this.setupURLs = function () {
 		this.baseURL = 'http://d00med.net/quackr/';

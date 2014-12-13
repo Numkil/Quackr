@@ -42,6 +42,8 @@ function render(template, args) {
     loading("hide");
     error = "";
     info = "";
+    log('render done.');
+    return;
 }
 
 function renderPartial(name, args){
@@ -64,7 +66,8 @@ function redirect(location){
     if (location.charAt(0) != '#'){
         location = '#' + location;
     }
-	app.route(location);
+    log('Redirecting to ' + location);
+	app.route(null, location);
 }
 
 function loading(showOrHide) {
@@ -81,6 +84,7 @@ function setInfoMessage(msg){
 }
 
 function goToScreen() {
+    log('-------- goToScreen');
     if (window.location.hash){
         window.history.back();//edirect(window.location.hash.substring(1));
     } else {

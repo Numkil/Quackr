@@ -6,15 +6,24 @@ var QuestionsView = function (data) {
 		if (app.loggedin == true){
 			//Show all categories
 
-            log('Loading questions..');
-            results = app.model.getQuestions(data);
+            log('Loading all categories..');
+            cats = app.model.getCategories();
+            log('Loading random questions..');
+            results = [];
+            cats.forEach(function (entry){
+            	var cat = {
+            		category: entry,
+            		questions: app.model.getRandomQuestions(entry.id, 3),
+            	};
+            	results.push(cat);
+            });
             if (results){
             	log(results)
-            	render('questions', {
-            		questions: results
+            	render('randomquestions', {
+            		entries: results
             	});
             } else {
-            	setErrorMessage('Error retrieving questions.');
+            	setErrorMessage('Error retrieving random questions.');
             	goToScreen();
             }
 		} else {

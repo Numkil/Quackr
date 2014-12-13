@@ -37,9 +37,10 @@ var app = {
 		this.exitURL = /#exit/;
 		this.categoriesURL = /#categories/;
 		this.categoryURL = /#category/;
-		this.questionsURL = /#questions/;
+		this.questionsURL = /#random/;
 		this.questionURL = /#question/;
 		this.profileURL = /#profile/;
+		this.guessURL = /#guess/;
     },
 
     bindEvents: function() {
@@ -85,14 +86,37 @@ var app = {
     	if (matches){
     		return matches[1];
     	} else {
-    		result = false;
+    		return false;
     	}
     },
 
+    getPar: function(url, par) {
+    	var match = new RegExp("(?:\\?|&)" + par + "=" + "(\\d+)");
+    	log(match);
+    	var result = url.match(match);
+    	if (result){
+    		return result[1];
+    	} else {
+    		return false;
+    	}
+    },
 
-    route: function() {
+    guessQuestion: function(catid, questionid, answerid) {
+    	//TODO
+    },
+
+
+    route: function(eventt, input) {
     // route is called when a link is clicked
-	    var hash = window.location.hash;
+    	var hash = input;
+    	if (!hash){
+    		if (window.location.hash){
+    			hash = window.location.hash;
+    		} else {
+    			hash = "";
+    		}
+    	}
+
 	    if (hash.match(app.exitURL)){
 	    	if(navigator.app){
         		navigator.app.exitApp();
@@ -135,16 +159,6 @@ var app = {
 		    		redirect("overview");
 		    	}
 		    	return;
-		    }  else if (hash.match(app.questionsURL)){
-		    	var qid = this.getID(hash);
-		    	if (qid){
-		    		var qv = new QuestionsView(qid);
-		    	} else {
-		    		log('no category id given');
-		    		setErrorMessage("No category chosen!");
-		    		redirect('overview');
-		    	}
-		    	return;
 		    } else if (hash.match(app.questionURL)){
 		    	var qid = this.getID(hash);
 		    	if (qid){
@@ -155,9 +169,26 @@ var app = {
 		    		redirect('overview');
 		    	}
 		    	return;
+		    } else if (hash.match(this.questionsURL)){
+		    	var qv = new QuestionsView();
+		    	return;
 		    } else if (hash.match(app.profileURL)){
 		    	var pv = new ProfileView();
+		    	return;
+		    } else if (hash.match(app.guessURL)){
+		    	var catid = this.getPar(hash, 'c');
+		    	var qid = this.getPar(hash, 'q');
+		    	var aid = this.getPar(hash, 'a');
+		    	if (!catid || !qid || !aid){
+		    		setErrorMessage('Something went wrong. We redirected you back here.');
+		    		log('Malformed URL! Missing argument(s): ' + hash);
+		    		redirect('overview');
+		    	} else {
+		    		this.guessQuestion(catid, qid, aid);
+		    	}
+		    	return;
 		    } else {
+		    	log(hash);
 		    	var ov = new OverviewView();
 		    	return;
 		    }
