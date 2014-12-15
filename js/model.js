@@ -33,30 +33,23 @@ var Model = function () {
 		return result;
 	},
 
-	this.getImage = function(input,ext) {
-		result = false;
-		log('getting image ' + input);
 
-		var img = new Image();
-		img.src = input;
-		img.width = 100;
-		img.height = 100;
-	
-	    // Create an empty canvas element
-	    var canvas = document.createElement("canvas");
-	    canvas.width = img.width;
-	    canvas.height = img.height;
-
-	    // Copy the image contents to the canvas
-	    var ctx = canvas.getContext("2d");
-	    ctx.drawImage(img, 0, 0);
-
-	    if (!ext){
-	    	ext = "jpg";
-	    }
-	    var dataURL = canvas.toDataURL("image/png", 1.0);
-
-	    return dataURL;
+	this.getImage = function(url, callback, output) {
+	    var canvas = document.createElement('CANVAS'),
+	        ctx = canvas.getContext('2d'),
+	        img = new Image;
+	    img.crossOrigin = 'Anonymous';
+	    img.onload = function(){
+	        var dataURL;
+	        canvas.height = img.height;
+	        canvas.width = img.width;
+	        ctx.drawImage(img, 0, 0);
+	        dataURL = canvas.toDataURL(output);
+	        canvas = null;
+	        //log(dataURL);
+	        callback.call(this, dataURL);
+	    };
+	    img.src = url;
 	},
 
 	//Requirement: questions must be fetched at least once on first boot
@@ -103,10 +96,10 @@ var Model = function () {
 	this.submit = function(url, data) {
 		var xhr = new XMLHttpRequest();
 		xhr.open(form.method, form.action, true);
-		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-		xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('userToken'));
+		//xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+		//xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('userToken'));
 		if (app.userProfile){
-			xhr.setRequestHeader('ID', app.userProfile.user_id);
+		//	xhr.setRequestHeader('ID', app.userProfile.user_id);
 		}
 
 		xhr.send(JSON.stringify(data));
@@ -130,11 +123,14 @@ var Model = function () {
 	},
 
 	this.getProfile = function() {
-		var result = this.getData(this.profileURL);
-		// double pass to include the actual image instead of the URL
-		result.picture = this.getImage(result.picture);
-		log(result.picture);
-		return result;
+		var profile = this.getData(this.profileURL);
+
+		this.getImage(profile.picture, function(base64Img){
+			profile.picture = base64Img;
+			log('Set profile.picture to ' + profile.picture);
+		});
+
+		return profile;
 	},
 
 	this.getCategoryAnswered = function(catid) {
