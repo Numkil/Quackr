@@ -95,8 +95,8 @@ var Model = function () {
 	},
 
 	this.submit = function(url, data) {
-		$.post( url, JSON.stringify(data))
-		  ,done(function( result ) {
+		$.post( url, JSON.stringify(data),
+		  function( result ) {
 		  	log('submit result: ' + result);
 		    return result;
 		}, "json");
@@ -170,6 +170,8 @@ var Model = function () {
 					data['solved'].push(entry);
 				});
 				this.submit(this.submitURL, data);
+				log('Submitted progress.');
+				log(data);
 			} catch (err) {
 				log('Submit failed; ' + err);
 				error = true;
@@ -183,6 +185,7 @@ var Model = function () {
 
 	this.correct = function (questionid) {
 		//remove question from cache
+		log('Removing question id ' + questionid + ' from cache.');
 		this.removeLocal(this.questionURL + questionid);
 		//update numbers
 		//http://d00med.net/quackr/secured/user/1/progress
@@ -208,7 +211,7 @@ var Model = function () {
 
 		var wrong = this.getLocal('wrong');
 		if (wrong){
-			wrong.put(questionid);
+			wrong.push(questionid);
 			if (this.setNumbers()){
 				this.removeLocal('wrong');
 			} else {

@@ -77,7 +77,7 @@
       if (correct){
         log('Question correct!');
         app.model.correct(questionid);
-        redirect('questions?id=' + catid);
+        redirect('next?id=' + catid);
       } else {
         log('Question incorrect!');
         app.model.incorrect(questionid);

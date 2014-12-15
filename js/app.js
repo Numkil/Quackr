@@ -40,6 +40,7 @@ var app = {
 		this.questionsURL = /#random/;
 		this.questionURL = /#question/;
 		this.profileURL = /#profile/;
+		this.nextURL = /#next/;
     },
 
     bindEvents: function() {
@@ -167,6 +168,16 @@ var app = {
 		    } else if (hash.match(this.questionsURL)){
 		    	var qv = new QuestionsView();
 		    	return;
+		    } else if (hash.match(this.nextURL)) {
+		    	var cid = this.getID(hash);
+		    	if (cid){
+		    		var next_id = this.model.getRandomQuestion(cid).id;
+		    		var qv = new QuestionView(next_id);
+		    	} else {
+		    		log('no cat id given');
+		    		setErrorMessage('No category chosen!');
+		    		redirect('overview');
+		    	}
 		    } else if (hash.match(app.profileURL)){
 		    	var pv = new ProfileView();
 		    	return;
