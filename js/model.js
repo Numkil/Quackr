@@ -28,8 +28,7 @@ var Model = function () {
 				}
 			})
 			.error(function (request, status, error){
-				log('getData error failed : ' + input + ", " + request + ", " + status + ", " + error);
-				log(error);
+				log('getData error failed : ' + input + ", " + status + ", " + error);
 			});
 		return result;
 	},
@@ -72,22 +71,26 @@ var Model = function () {
 			log('Auth0 request or TTL expired/not existant. Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
-			if (result && !auth0_request){
-				// Fill our local database
-				this.putLocal(input.trim(), result);
-				// Adjust/add the TTL
-				this.putLocal('TTL_' + input.trim(), now);
-				log('Putting result in cache..');
+			if (auth0_request){
 				return result;
-			} else if (!auth0_request) {
-				if (ttl){
-					log('No network, but we have a cached version.');
-					//Online doesnt work, but we have a local copy!
-					return this.getLocal(input.trim());
+			} else {
+				if (result){
+					// Fill our local database
+					this.putLocal(input.trim(), result);
+					// Adjust/add the TTL
+					this.putLocal('TTL_' + input.trim(), now);
+					log('Putting result in cache..');
+					return result;
 				} else {
-					log('No network and no cached version.. Returning false..');
-					//Online doesnt work and we dont have a local copy..
-					return false;
+					if (ttl){
+						log('No network, but we have a cached version.');
+						//Online doesnt work, but we have a local copy!
+						return this.getLocal(input.trim());
+					} else {
+						log('No network and no cached version.. Returning false..');
+						//Online doesnt work and we dont have a local copy..
+						return false;
+					}
 				}
 			}
 		} else {
