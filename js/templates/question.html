@@ -25,15 +25,15 @@
       </div>
       <div class="ui-corner-all custom-corners">
         <div class="ui-bar ui-bar-a">
-         <h3>You are quackin' <strong>{{categoryname}}</strong> on difficulty <strong>Level {{questions.lvl}}</strong></h3>
+         <h3>You are quackin' <strong>{{questions.0.category}}</strong> on difficulty <strong>Level {{lvl}}</strong></h3>
        </div>
        <div class="ui-body ui-body-a">
          <p>
-          {{questions.question}}
+          {{question}}
          </p>
          <br>
          <div class="row">
-          {{#each questions.propanswers}}
+          {{#each propanswers}}
           <label class="radio answer">
               <input type="radio" name="answer" id="answer-{{{id}}}" value="{{{id}}}" data-toggle="radio">
               <span class="icons">
@@ -46,7 +46,7 @@
         </div>
         <br>
         <div class="row">
-          <button id="go" data-icon="flat-checkround" data-theme="b" onClick="javascript:guess('{{catid}}','{{id}}');" disabled>Go</button>
+          <button id="go" data-icon="flat-checkround" data-theme="b" onClick="javascript:guess('{{catid}}','{{questions.0.id}}');" disabled>Go</button>
           <!-- "javascript:redirect('guess?c={{catid}}&amp;q={{id}}&amp;a=' + selected);" -->
         </div>
        </div>

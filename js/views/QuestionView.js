@@ -31,6 +31,7 @@ var QuestionView = function (data) {
       if (result){
       	log(result);
         result.catid = data;
+        //result.category = app.model.getQuestions(data).categoryname;
       	render('question', {
       		question: result,
       	});

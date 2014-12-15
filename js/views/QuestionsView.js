@@ -18,6 +18,7 @@ var QuestionsView = function (data) {
             	results.push(cat);
             });
             if (results){
+                  log('Questions in template: ');
             	log(results)
             	render('randomquestions', {
             		entries: results

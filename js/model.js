@@ -104,20 +104,34 @@ var Model = function () {
 
 	this.getQuestions = function(catid) {
 		//GET secured/category/{id}(/random)
-		return this.getData(this.categoryURL + catid);
+		var r = this.getData(this.categoryURL + catid);
+		log('getQuestions for category ' + catid);
+		log(r);
+		return r;
 	},
 
-	this.getQuestion = function(questionid) {
-		return this.getData(this.questionURL + questionid);
+	this.getQuestion_DEL = function(catid, questionid) {
+		//return this.getData(this.questionURL + questionid);
+		var result = false;
+		this.getQuestions(catid).forEach(function (entry){
+			log(entry);
+		});
+		return result;
 	}
 
 	this.getRandomQuestion = function(catid) {
-		return this.getData(this.categoryURL + catid + '/random');
+		//return this.getData(this.categoryURL + catid + '/random');
+		var all = this.getQuestions(catid);
+		var r = all.questions[Math.floor(Math.random()*all.questions.length)];
+		log('Random question;');
+		log(r);
+		return r;
 	},
 
 	this.getCategories = function() {
 		return this.getData(this.categoriesURL);
 	},
+
 
 	this.getProfile = function() {
 		var profile = this.getData(this.profileURL);
@@ -132,10 +146,22 @@ var Model = function () {
 
 	this.getCategoryAnswered = function(catid) {
 		return this.getData(this.userURL + catid + '/progress');
+		//return this.getQuestions(catid); //everything is removed when it is answered
 	},
 
+
 	this.getRandomQuestions = function(catid, count) {
-		return this.getData(this.categoryURL + catid + '/random/' + count);
+		//return this.getData(this.categoryURL + catid + '/random/' + count);
+		var result = [];
+		var all = this.getQuestions(catid);
+		for (i = 0; i < count && i <= all.questions.length; i++) {
+			var item = all.questions[Math.floor(Math.random()*all.questions.length)];
+			all.questions.splice(all.questions.indexOf(item), 1);
+			result.push(item);
+		}
+		log('random questions:');
+		log(result);
+		return result;
 	},
 	
 	this.setupURLs = function () {
@@ -212,7 +238,7 @@ var Model = function () {
 		var wrong = this.getLocal('wrong');
 		if (wrong){
 			wrong.push(questionid);
-			if (this.setNumbers()){
+			if (this.sendNumbers()){
 				this.removeLocal('wrong');
 			} else {
 				this.putLocal('wrong', wrong);

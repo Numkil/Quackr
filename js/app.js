@@ -171,7 +171,7 @@ var app = {
 		    } else if (hash.match(this.nextURL)) {
 		    	var cid = this.getID(hash);
 		    	if (cid){
-		    		var next_id = this.model.getRandomQuestion(cid).id;
+		    		var next_id = this.model.getRandomQuestion(cid).questions[0].id;
 		    		var qv = new QuestionView(next_id);
 		    	} else {
 		    		log('no cat id given');
