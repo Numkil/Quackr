@@ -55,9 +55,9 @@ var Model = function () {
 	    if (!ext){
 	    	ext = "jpg";
 	    }
-	    var dataURL = canvas.toDataURL("image/" + ext);
+	    var dataURL = canvas.toDataURL("image/png", 1.0);
 
-	    return dataURL;//return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+	    return dataURL;
 	},
 
 	//Requirement: questions must be fetched at least once on first boot
@@ -93,6 +93,18 @@ var Model = function () {
 			return this.getLocal(input.trim());
 		}
 	},
+
+	this.submit = function(url, data) {
+		var xhr = new XMLHttpRequest();
+		xhr.open(form.method, form.action, true);
+		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+		xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('userToken'));
+		if (app.userProfile){
+			xhr.setRequestHeader('ID', app.userProfile.user_id);
+		}
+
+		xhr.send(JSON.stringify(data));
+	}
 
 	this.getQuestions = function(catid) {
 		//GET secured/category/{id}(/random)
@@ -136,18 +148,36 @@ var Model = function () {
 		this.categoryURL   = this.secURL + 'category/';
 		this.questionURL   = this.secURL + 'question/';
 		this.userURL 	   = this.secURL + 'user/';
+
+		this.submitURL	   = this.userURL + 'submit';
 	},
 
 	this.sendNumbers = function() {
 		var solved_arr = this.getLocal('solved');
 		var wrong_arr  = this.getLocal('wrong');
-		if (solved_arr){
-			//TODO: send
+		if (solved_arr || wrong_arr){
+			error = false;
+			try {
+				data = {};
+				data['wrong'] = [];
+				wrong_arr.forEach(function (entry){
+					data['wrong'].push(entry);
+				});
+				data['solved'] = [];
+				solved_arr.forEach(function (entry){
+					data['solved'].push(entry);
+				});
+				this.submit(this.submitURL, data);
+			} catch (err) {
+				log('Submit failed; ' + err);
+				error = true;
+			}
+			if (!error){
+				this.removeLocal('solved');
+				this.removeLocal('wrong');
+			}
 		}
-		if (wrong_arr){
-			//TODO: send
-		}
-	}
+	},
 
 	this.correct = function (questionid) {
 		var solved_arr = this.getLocal('solved');
