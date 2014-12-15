@@ -62,21 +62,24 @@ var Model = function () {
 
 	//Requirement: questions must be fetched at least once on first boot
 	this.getData = function (input){
-		var ttl = this.getLocal('TTL_' + input.trim());
-		log('TTL is ' + ttl + ' for ' + input);
-		var now = new Date();
-		if ((!ttl) || (Date(ttl) < now)){
-			log('TTL expired or not existant. Fetching online..');
+		var auth0_request = (input.indexOf('quackr.auth0.com') > -1);
+		if (!auth0_request){
+			var ttl = this.getLocal('TTL_' + input.trim());
+			log('TTL is ' + ttl + ' for ' + input);
+			var now = new Date();
+		}
+		if (auth0_request || (!ttl) || (Date(ttl) < now)){
+			log('Auth0 request or TTL expired/not existant. Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
-			if (result){
+			if (result && !auth0_request){
 				// Fill our local database
 				this.putLocal(input.trim(), result);
 				// Adjust/add the TTL
 				this.putLocal('TTL_' + input.trim(), now);
 				log('Putting result in cache..');
 				return result;
-			} else {
+			} else if (!auth0_request) {
 				if (ttl){
 					log('No network, but we have a cached version.');
 					//Online doesnt work, but we have a local copy!
