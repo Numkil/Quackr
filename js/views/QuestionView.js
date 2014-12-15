@@ -7,17 +7,17 @@ var QuestionView = function (data) {
       var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
       log('Current category progress: ' + progress);
       $.getScript('js/progressbar.js').done(function(){
-            //create the progressbar
-            jQMProgressBar('pb_question')
-              .setOuterTheme('b')
-              .setInnerTheme('e')
-              .isMini(true)
-              .setMax(progress)
-              .setStartFrom(0)
-              .setInterval(10)
-              .showCounter(true)
-              .build()
-              .run();
+          //create the progressbar
+          jQMProgressBar('pb_question')
+            .setOuterTheme('b')
+            .setInnerTheme('e')
+            .isMini(true)
+            .setMax(progress)
+            .setStartFrom(0)
+            .setInterval(10)
+            .showCounter(true)
+            .build()
+            .run();
       });
     }
   },
@@ -27,7 +27,7 @@ var QuestionView = function (data) {
 		if (app.loggedin == true){
 			//Show all categories
       log('Loading question..');
-      result = app.model.getQuestion(data);
+      result = app.model.getRandomQuestion(data);
       if (result){
       	log(result);
         result.catid = data;

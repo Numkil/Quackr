@@ -88,21 +88,18 @@ var Model = function () {
 			}
 		} else {
 			log('TTL valid, opening from cache..');
+			log(this.getLocal(input.trim()));
 			//Safe to use our cached copy
 			return this.getLocal(input.trim());
 		}
 	},
 
 	this.submit = function(url, data) {
-		var xhr = new XMLHttpRequest();
-		xhr.open(form.method, form.action, true);
-		//xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-		//xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('userToken'));
-		if (app.userProfile){
-		//	xhr.setRequestHeader('ID', app.userProfile.user_id);
-		}
-
-		xhr.send(JSON.stringify(data));
+		$.post( url, JSON.stringify(data))
+		  ,done(function( result ) {
+		  	log('submit result: ' + result);
+		    return result;
+		}, "json");
 	}
 
 	this.getQuestions = function(catid) {
@@ -158,6 +155,7 @@ var Model = function () {
 		var solved_arr = this.getLocal('solved');
 		var wrong_arr  = this.getLocal('wrong');
 		if (solved_arr || wrong_arr){
+			log('Submitting to server..');
 			error = false;
 			try {
 				data = {};
@@ -178,14 +176,21 @@ var Model = function () {
 			}
 			return error;
 		} else {
+			log('Nothing to submit');
 			return true;
 		}
 	},
 
 	this.correct = function (questionid) {
+		//remove question from cache
+		this.removeLocal(this.questionURL + questionid);
+		//update numbers
+		//http://d00med.net/quackr/secured/user/1/progress
+		//TODO: update solved
+
 		var solved_arr = this.getLocal('solved');
 		if (solved_arr){
-			solved_arr.put(questionid);
+			solved_arr.push(questionid);
 			if (this.sendNumbers()){
 				this.removeLocal('solved');
 			} else {
@@ -197,6 +202,10 @@ var Model = function () {
 	},
 
 	this.incorrect = function (questionid) {
+		//update numbers
+		//http://d00med.net/quackr/secured/user/1/progress
+		//TODO: update wrong
+
 		var wrong = this.getLocal('wrong');
 		if (wrong){
 			wrong.put(questionid);
