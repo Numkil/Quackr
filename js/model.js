@@ -159,10 +159,12 @@ var Model = function () {
 			error = false;
 			try {
 				data = {};
+				// Question ids of wrong answers
 				data['wrong'] = [];
 				wrong_arr.forEach(function (entry){
 					data['wrong'].push(entry);
 				});
+				// Question ids of correct answers
 				data['solved'] = [];
 				solved_arr.forEach(function (entry){
 					data['solved'].push(entry);
@@ -172,10 +174,9 @@ var Model = function () {
 				log('Submit failed; ' + err);
 				error = true;
 			}
-			if (!error){
-				this.removeLocal('solved');
-				this.removeLocal('wrong');
-			}
+			return error;
+		} else {
+			return true;
 		}
 	},
 
