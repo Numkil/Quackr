@@ -178,10 +178,12 @@ var Model = function () {
 		//return this.getData(this.categoryURL + catid + '/random/' + count);
 		var result = [];
 		var all = this.getQuestions(catid);
-		for (i = 0; i < count && i <= all.questions.length; i++) {
-			var item = all.questions[Math.floor(Math.random()*all.questions.length)];
-			all.questions.splice(all.questions.indexOf(item), 1);
-			result.push(item);
+		if (all.questions.length > 0){
+			for (i = 0; i < count && i <= all.questions.length; i++) {
+				var item = all.questions[Math.floor(Math.random()*all.questions.length)];
+				all.questions.splice(all.questions.indexOf(item), 1);
+				result.push(item);
+			}
 		}
 		log('random questions:');
 		log(result);

@@ -30,13 +30,18 @@
       <div data-role="content" role="main">
        <ul data-role="listview" data-inset="true">
         {{#each entries}}
-          <li data-role="list-divider" data-theme="a"><a href="#category?id={{category.id}}">{{category.categoryname}}</a></li>
+          <li data-role="list-divider" data-theme="a"><a href="#question?id={{category.id}}">{{category.categoryname}}</a></li>
             {{#each questions}}
               <li>{{{question}}}</li>
             {{/each}}
+          <div id="noquestions-{{{category.id}}}" style="display:none;">
+            <p>
+              Oh no! No questions left..  Good job!
+            </p>
+          </div>
           <script type="text/javascript">
-            if ('{{questions.length}}' === '0'){
-              //document.write("<p>No questions left. Switch to the next level? We need internet access!</p>");
+            if ('{{{questions.length}}}' === '0'){
+              $('#noquestions-{{{category.id}}}').show();
             }
           </script>
         {{/each}}

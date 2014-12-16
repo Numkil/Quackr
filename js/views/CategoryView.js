@@ -8,6 +8,7 @@ var CategoryView = function (id) {
             log('Loading category... ');
 
             results = app.model.getQuestions(id);
+            log(results);
             if (results){
                   render('questions', {
                         questions: results
