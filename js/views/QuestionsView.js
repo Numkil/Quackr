@@ -24,7 +24,7 @@ var QuestionsView = function (data) {
             		entries: results
             	});
             } else {
-            	setErrorMessage('Error retrieving random questions.');
+            	setErrorMessage('Error retrieving questions.');
             	goToScreen();
             }
 		} else {
