@@ -1,8 +1,21 @@
 var ProfileView = function (data) {
     //View for the overview screen
     //
-    this.createProgressBar = function() {
-        cats.forEach(function(cat){
+    this.initialize = function () {
+        // View constructor
+        if (app.loggedin == true){
+            var cats = app.model.getCategories();
+            var provider = app.userProfile.identities[0].provider;
+            var myRegex = /(.*)\-oauth2/;
+            var provider = myRegex.exec(provider)[1];
+
+            render('profile', {
+                name: app.userProfile.name,
+                picture: app.userProfile.picture,
+                provider: provider,
+                categories: cats,
+            }).done( function(){
+                cats.forEach(function(cat){
                     var progress = app.model.getCategoryAnswered(cat.id);
                     $.extend(cat, progress);
                     log(cat);
@@ -11,27 +24,14 @@ var ProfileView = function (data) {
                         value: (cat.sizeFinished / cat.sizeQuestions)*100,
                         min: 0,
                         max: 100,
-                        title: '',
+                        title: ' ',
                         label: '%'
                     });
                 });
-    },
-    
-    this.initialize = function () {
-        // View constructor
-        if (app.loggedin == true){
-            var cats = app.model.getCategories();
-            var provider = app.userProfile.identities[0].provider;
-            var myRegex = /(.*)\-oauth2/;
-            var provider = myRegex.exec(provider)[1];
-            
-            render('profile', {
-                name: app.userProfile.name,
-                picture: app.userProfile.picture,
-                provider: provider,
-                categories: cats,
-            }).done( function(){
-                this.createProgressBar();
+                $("#delete").click(function(){
+                    app.model.deleteProgress();
+                    window.location.reload();
+                });
             });
         } else {
             //Re-render and show login page with login filled in
