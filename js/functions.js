@@ -9,6 +9,7 @@ function log( msg ){
 }
 
 function render(template, args) {
+    var deferration = $.Deferred();
     var source;
     var template;
     var path = 'js/templates/' +  template + '.html';
@@ -43,7 +44,8 @@ function render(template, args) {
     error = "";
     info = "";
     log('render done.');
-    return;
+    deferration.resolve();
+    return deferration;
 }
 
 function renderPartial(name, args){

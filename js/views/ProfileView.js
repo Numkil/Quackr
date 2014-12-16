@@ -14,18 +14,19 @@ var ProfileView = function (data) {
                 picture: app.userProfile.picture,
                 provider: provider,
                 categories: cats,
-            });
-            cats.forEach(function(cat){
-                var progress = app.model.getCategoryAnswered(cat.id);
-                $.extend(cat, progress);
-                log(cat);
-                var gage = new JustGage({
-                    id: "pb_"+cat.id,
-                    value: (cat.sizeFinished / cat.sizeQuestions)*100,
-                    min: 0,
-                    max: 100,
-                    title: ' ',
-                    label: '%'
+            }).done( function(){
+                cats.forEach(function(cat){
+                    var progress = app.model.getCategoryAnswered(cat.id);
+                    $.extend(cat, progress);
+                    log(cat);
+                    var gage = new JustGage({
+                        id: cat.id+"_pb",
+                        value: (cat.sizeFinished / cat.sizeQuestions)*100,
+                        min: 0,
+                        max: 100,
+                        title: '',
+                        label: '%'
+                    });
                 });
             });
         } else {
