@@ -95,7 +95,7 @@ var Model = function () {
 				//Safe to use our cached copy
 				return local;
 			} else {
-				//Local db is empty. Try to fetch online by removing TTL and recursive call.
+				//Local db is non existant. Try to fetch online by removing TTL and recursive call.
 				log('Local db is empty. Removing TTL and recursive calling myself.');
 				this.removeLocal('TTL_' + input.trim());
 				return this.getData(input);
@@ -103,6 +103,16 @@ var Model = function () {
 		}
 	},
 
+	this.getMoreQuestions = function () {
+		var categories = this.getCategories();
+		categories.forEach(function (entry){
+			//Will be cached automagically.
+			//NOTE TO MYSELF: what about /random/x ?
+			var r = this.getQuestions(entry.id);
+		});
+		return ((r) && (r.length > 0));
+	},
+/**
 	this.convertAPIdata = function (input) {
 		//Converts API JSON to something easier to work with
 		var result = [];
@@ -113,7 +123,7 @@ var Model = function () {
 
 		return result;
 	},
-
+**/
 	this.submit = function(url, data) {
 		$.post( url, JSON.stringify(data),
 		  function( result ) {
@@ -132,7 +142,7 @@ var Model = function () {
 
 	this.getQuestions = function(catid) {
 		//GET secured/category/{id}(/random)
-		var r = this.getData(this.categoryURL + catid + '/random/' + '10'); //10 is temp
+		var r = this.getData(this.categoryURL + catid + '/random/' + '20');
 		log('getQuestions for category ' + catid);
 		log(r);
 		return r;

@@ -5,6 +5,18 @@ var QuestionView = function (data) {
     var answered = app.model.getCategoryAnswered(data);
     if (answered){
       var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
+      $.extend(cat, progress);
+      log(cat);
+      var gage = new JustGage({
+          id: 'pb_question',
+          value: (progress * 100),
+          min: 0,
+          max: 100,
+          title: '',
+          label: '%'
+      });
+      /**
+      var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
       log('Current category progress: ' + progress);
       $.getScript('js/progressbar.js').done(function(){
           //create the progressbar
@@ -18,7 +30,7 @@ var QuestionView = function (data) {
             .showCounter(true)
             .build()
             .run();
-      });
+      });**/
     }
   },
 
@@ -37,8 +49,16 @@ var QuestionView = function (data) {
       	});
         this.createProgressBar();
       } else {
-      	setInfoMessage('There are no questions left! Turn on internet access and try this again.');
-      	goToScreen();
+        //try retrieving more
+        log('Trying to retrieve more questions for the cache..');
+        if (app.model.getMoreQuestions()){
+          log('YES! Reloading..');
+          redirect('question?id=' + data);
+        } else {
+          log('Nope, failed.');
+        	setInfoMessage('There are no questions left! Turn on internet access and try this again.');
+        	goToScreen();
+        }
       }
 		} else {
 			//Re-render and show login page with login filled in
