@@ -1,0 +1,71 @@
+[  
+   {  
+      "id":"1",
+      "categoryname":"Animals",
+      "questions":[  
+
+      ]
+   },
+   {  
+      "id":"3",
+      "categoryname":"History",
+      "questions":[  
+
+      ]
+   },
+   {  
+      "id":"2",
+      "categoryname":"Technology",
+      "questions":[  
+
+      ]
+   }
+]
+
+{  
+   "id":"1",
+   "categoryname":"Animals",
+   "questions":[  
+      {  
+         "id":"2",
+         "question":"How many toes does an elephant have?",
+         "lvl":"1",
+         "correctanswer":[  
+            {  
+               "id":"4",
+               "propanswer":"4",
+               "correctAnswered":1
+            },
+            {  
+               "id":"6",
+               "propanswer":"5",
+               "correctAnswered":1
+            }
+         ],
+         "propanswers":[  
+            {  
+               "id":"4",
+               "propanswer":"4",
+               "correctAnswered":1
+            },
+            {  
+               "id":"5",
+               "propanswer":"3",
+               "correctAnswered":0
+            },
+            {  
+               "id":"6",
+               "propanswer":"5",
+               "correctAnswered":1
+            },
+            {  
+               "id":"7",
+               "propanswer":"6",
+               "correctAnswered":0
+            }
+         ]
+      }
+   ]
+}
+
+#1December 16th 2014, 9:41:35 am
