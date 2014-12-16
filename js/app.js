@@ -113,6 +113,11 @@ var app = {
     		}
     	}
 
+    	if (hash.match(/#clearcache/)){
+    		$.jStorage.flush();
+    		redirect('overview');
+    	} else
+
 	    if (hash.match(app.exitURL)){
 	    	if(navigator.app){
         		navigator.app.exitApp();
