@@ -123,7 +123,7 @@ var Model = function () {
 	},
 
     this.deleteProgress = function(){
-        $.post(this.userURL + '/reset',
+        $.post(this.userURL + 'reset',
                 function (result){
                     log('delete result:' +result);
                 }
