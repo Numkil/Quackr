@@ -32,13 +32,13 @@
         {{#each entries}}
           <li data-role="list-divider" data-theme="a"><a href="#question?id={{category.id}}">{{category.categoryname}}</a></li>
             {{#each questions}}
-              <li>{{{question}}}</li>
+              <li>
+                <strong>{{{question}}}</strong>
+              </li>
             {{/each}}
-          <div id="noquestions-{{{category.id}}}" style="display:none;">
-            <p>
+            <li id="noquestions-{{{category.id}}}" style="display:none;">
               Oh no! No questions left..  Good job!
-            </p>
-          </div>
+            </li>
           <script type="text/javascript">
             if ('{{{questions.length}}}' === '0'){
               $('#noquestions-{{{category.id}}}').show();
