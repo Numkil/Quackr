@@ -37,14 +37,16 @@ function render(template, args) {
             source = data;
             template = Handlebars.compile(source);
             $('#maincontainer').html(template(args)).trigger('create');
-        }
+        },
+        complete: function (){
+            deferration.resolve();
+        },
     });
     
     loading("hide");
     error = "";
     info = "";
     log('render done.');
-    deferration.resolve();
     return deferration;
 }
 
