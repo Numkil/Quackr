@@ -37,7 +37,7 @@ var QuestionView = function (data) {
       	});
         this.createProgressBar();
       } else {
-      	setErrorMessage('Error retrieving question.');
+      	setInfoMessage('There are no questions left! Turn on internet access and try this again.');
       	goToScreen();
       }
 		} else {

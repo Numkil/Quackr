@@ -171,8 +171,13 @@ var app = {
 		    } else if (hash.match(this.nextURL)) {
 		    	var cid = this.getID(hash);
 		    	if (cid){
-		    		var next_id = this.model.getRandomQuestion(cid).questions[0].id;
-		    		var qv = new QuestionView(next_id);
+		    		var q = this.model.getRandomQuestion(cid);
+		    		if (q){
+		    			var qv = new QuestionView(q.id);
+		    		} else {
+		    			setInfoMessage('You finished this level! Turn on your internet and go to the category again.');
+		    			redirect('overview');
+		    		}
 		    	} else {
 		    		log('no cat id given');
 		    		setErrorMessage('No category chosen!');

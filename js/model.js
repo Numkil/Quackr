@@ -64,6 +64,7 @@ var Model = function () {
 			log('Auth0 request or TTL expired/not existant. Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
+			//result = this.convertAPIdata(result);
 			if (auth0_request){
 				return result;
 			} else {
@@ -88,11 +89,30 @@ var Model = function () {
 			}
 		} else {
 			log('TTL valid, opening from cache..');
-			log(this.getLocal(input.trim()));
-			//Safe to use our cached copy
-			return this.getLocal(input.trim());
+			var local = this.getLocal(input.trim());
+			log(local);
+			if (local){
+				//Safe to use our cached copy
+				return local;
+			} else {
+				//Local db is empty. Try to fetch online by removing TTL and recursive call.
+				log('Local db is empty. Removing TTL and recursive calling myself.');
+				this.removeLocal('TTL_' + input.trim());
+				return this.getData(input);
+			}
 		}
 	},
+
+	this.convertAPIdata = function (input) {
+		//Converts API JSON to something easier to work with
+		var result = [];
+
+		input.questions.forEach(function (entry) {
+			//
+		});
+
+		return result;
+	}
 
 	this.submit = function(url, data) {
 		$.post( url, JSON.stringify(data),
@@ -104,12 +124,12 @@ var Model = function () {
 
 	this.getQuestions = function(catid) {
 		//GET secured/category/{id}(/random)
-		var r = this.getData(this.categoryURL + catid);
+		var r = this.getData(this.categoryURL + catid + '/random/' + '10'); //10 is temp
 		log('getQuestions for category ' + catid);
 		log(r);
 		return r;
 	},
-
+/**
 	this.getQuestion_DEL = function(catid, questionid) {
 		//return this.getData(this.questionURL + questionid);
 		var result = false;
@@ -118,13 +138,18 @@ var Model = function () {
 		});
 		return result;
 	}
-
+**/
 	this.getRandomQuestion = function(catid) {
 		//return this.getData(this.categoryURL + catid + '/random');
 		var all = this.getQuestions(catid);
-		var r = all.questions[Math.floor(Math.random()*all.questions.length)];
-		log('Random question;');
-		log(r);
+		if (all && all.length > 0){
+			var r = all.questions[Math.floor(Math.random()*all.questions.length)];
+			log('Random question;');
+			log(r);
+		} else {
+			log('no random questions available');
+			r = false;
+		}
 		return r;
 	},
 
@@ -135,7 +160,6 @@ var Model = function () {
 
 	this.getProfile = function() {
 		var profile = this.getData(this.profileURL);
-
 		this.getImage(profile.picture, function(base64Img){
 			profile.picture = base64Img;
 			log('Set profile.picture to ' + profile.picture);

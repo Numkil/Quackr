@@ -46,7 +46,7 @@
         </div>
         <br>
         <div class="row">
-          <button id="go" data-icon="flat-checkround" data-theme="b" onClick="javascript:guess('{{catid}}','{{questions.0.id}}');" disabled>Go</button>
+          <button id="go" data-icon="flat-checkround" data-theme="b" onClick="javascript:guess('{{catid}}','{{id}}');" disabled>Go</button>
           <!-- "javascript:redirect('guess?c={{catid}}&amp;q={{id}}&amp;a=' + selected);" -->
         </div>
        </div>
@@ -62,13 +62,15 @@
 
   function guess(catid, questionid){
     //All possible correct answers
-    var answers = [ {{#each question.questions.correctanswer}} '{{propanswer}}', {{/each}} ];
-
+    var answers = [ {{#each question.correctanswer}} '{{id}}', {{/each}} ];
+    log('Possible answers:');
+    log(answers);
+    log('Selected: ' + selected);
     if (selected){
       var correct = false;
       //Support for multiple possibilities
       answers.forEach(function (entry){
-        log('entry ' + entry+ ' vs question id ' + selected);
+        log('answer ' + entry+ ' == answered ' + selected + ' ?');
         if (entry === selected){
           correct = true;
         }

@@ -25,14 +25,14 @@
        <h3>Browse Questions</strong></h3>
      </div>
      <div class="ui-body ui-body-a">
-      <p>We listed some categories and their questions for you to choose.. click on the category or question.</p>
+      <p>We listed some categories and some example questions.. click on the category to proceed.</p>
       <br>
       <div data-role="content" role="main">
        <ul data-role="listview" data-inset="true">
         {{#each entries}}
           <li data-role="list-divider" data-theme="a"><a href="#category?id={{category.id}}">{{category.categoryname}}</a></li>
             {{#each questions}}
-              <li><a href="#question?id={{id}}">{{{question}}}</a></li>
+              <li>{{{question}}}</li>
             {{/each}}
           <script type="text/javascript">
             if ('{{questions.length}}' === '0'){
