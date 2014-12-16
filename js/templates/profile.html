@@ -46,7 +46,16 @@
                 </ul>
             </div>
             {{/each}}
-
+            <br/>
+            <button id="delete" class="ui-btn-hidden" data-theme="d" data-icon="flat-settings"
+                data-disabled="false">Reset Progress</button>
         </div>
     </div>
 </div>
+
+<script>
+$("#delete").click(function(){
+        app.model.deleteProgress();
+        window.location.reload();
+        });
+</script>
