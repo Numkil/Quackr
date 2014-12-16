@@ -235,13 +235,40 @@ var Model = function () {
 		}
 	},
 
+	this.removeQuestionFromCache = function (questionid) {
+		var all = this.getCategories();
+		var done = false;
+		all.forEach(function(cat){
+			if (!done){
+				var cat_id = cat.id;
+				var all_question = this.getQuestions(cat_id);
+				all_question.forEach(function(question){
+					var question_id = question.id;
+					if (question.id != questionid){
+						new_arr.push(question);
+					} else {
+						log('question ' + questionid + ' found!');
+						//found the category
+						done = true;
+					}
+				});
+				if (done){
+					//this is the category you're looking for. Replace cached questions with a version without the question
+					log('New cached version:');
+					log(new_arr);
+					this.putLocal(this.categoryURL + cat.id, new_arr);
+				}
+			}
+		});
+		return done;
+	},
+
 	this.correct = function (questionid) {
 		//remove question from cache
 		log('Removing question id ' + questionid + ' from cache.');
-		this.removeLocal(this.questionURL + questionid);
 		//update numbers
 		//http://d00med.net/quackr/secured/user/1/progress
-		//TODO: update solved
+		this.removeQuestionFromCache(questionid);
 
 		var solved_arr = this.getLocal('solved');
 		if (solved_arr){
