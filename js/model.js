@@ -112,7 +112,7 @@ var Model = function () {
 		});
 
 		return result;
-	}
+	},
 
 	this.submit = function(url, data) {
 		$.post( url, JSON.stringify(data),
@@ -120,7 +120,15 @@ var Model = function () {
 		  	log('submit result: ' + result);
 		    return result;
 		}, "json");
-	}
+	},
+
+    this.deleteProgress = function(){
+        $.post(this.userURL + 'reset',
+                function (result){
+                    log('delete result:' +result);
+                }
+                );
+    },
 
 	this.getQuestions = function(catid) {
 		//GET secured/category/{id}(/random)
