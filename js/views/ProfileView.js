@@ -18,23 +18,15 @@ var ProfileView = function (data) {
             cats.forEach(function(cat){
                 var progress = app.model.getCategoryAnswered(cat.id);
                 $.extend(cat, progress);
-                var progressbar = (cat.sizeFinished / cat.sizeQuestions)*100;
-                $.getScript('js/progressbar.js').done(function(){
-                    //create the progressbar
-                    jQMProgressBar('pb_'+cat.id)
-                        .setOuterTheme('b')
-                        .setInnerTheme('e')
-                        .isMini(true)
-                        .setMax(progressbar)
-                        .setStartFrom(0)
-                        .setInterval(10)
-                        .showCounter(true)
-                        .build()
-                        .run();
+                log(cat);
+                var gage = new JustGage({
+                    id: "pb_"+cat.id,
+                    value: (cat.sizeFinished / cat.sizeQuestions)*100,
+                    min: 0,
+                    max: 100,
+                    title: ' ',
+                    label: '%'
                 });
-                //$("#pb_"+cat.id).progressbar({
-                    //value: progressbar,
-                //});
             });
         } else {
             //Re-render and show login page with login filled in
