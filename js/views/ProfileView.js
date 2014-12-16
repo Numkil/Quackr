@@ -1,21 +1,8 @@
 var ProfileView = function (data) {
     //View for the overview screen
     //
-
-    this.initialize = function () {
-        // View constructor
-        if (app.loggedin == true){
-            var cats = app.model.getCategories();
-            var provider = app.userProfile.identities[0].provider;
-            var myRegex = /(.*)\-oauth2/;
-            var provider = myRegex.exec(provider)[1];
-            render('profile', {
-                name: app.userProfile.name,
-                picture: app.userProfile.picture,
-                provider: provider,
-                categories: cats,
-            }).done( function(){
-                cats.forEach(function(cat){
+    this.createProgressBar = function() {
+        cats.forEach(function(cat){
                     var progress = app.model.getCategoryAnswered(cat.id);
                     $.extend(cat, progress);
                     log(cat);
@@ -28,6 +15,23 @@ var ProfileView = function (data) {
                         label: '%'
                     });
                 });
+    },
+    
+    this.initialize = function () {
+        // View constructor
+        if (app.loggedin == true){
+            var cats = app.model.getCategories();
+            var provider = app.userProfile.identities[0].provider;
+            var myRegex = /(.*)\-oauth2/;
+            var provider = myRegex.exec(provider)[1];
+            
+            render('profile', {
+                name: app.userProfile.name,
+                picture: app.userProfile.picture,
+                provider: provider,
+                categories: cats,
+            }).done( function(){
+                this.createProgressBar();
             });
         } else {
             //Re-render and show login page with login filled in
