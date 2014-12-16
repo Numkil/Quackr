@@ -9,9 +9,13 @@ var ProfileView = function (data) {
 			//log('random question:');
 			//log(app.model.getRandomQuestion('2'));
 
+            var provider = app.userProfile.identities[0].provider;
+            var myRegex = /(.*)\-oauth2/;
+            var provider = myRegex.exec(provider)[1];
             render('profile', {
             	name: app.userProfile.name,
-            	picture: app.userProfile.picture
+            	picture: app.userProfile.picture,
+                provider: provider
             });
 		} else {
 			//Re-render and show login page with login filled in
