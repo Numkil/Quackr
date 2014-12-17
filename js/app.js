@@ -147,6 +147,7 @@ var app = {
 		    //-- we are sure user is logged in from now on
 		    if (hash.match(app.logoutURL)){
 		    	this.logout();
+		    	$.jStorage.flush();
 		    	return;
 		    } else if (hash.match(app.categoriesURL)){
 		    	var cv = new CategoriesView();
