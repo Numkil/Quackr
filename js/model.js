@@ -133,11 +133,15 @@ var Model = function () {
 	},
 
     this.deleteProgress = function(){
-        $.post(this.userURL + 'reset',
-                function (result){
-                    log('delete result:' +result);
-                }
-                );
+        var deferration = $.Deferred();
+            $.post(this.userURL + 'reset',
+                    function (result){
+                        log('delete result:' +result);
+    		            $.jStorage.flush();
+                        deferration.resolve();
+                    }
+            );
+    return deferration;
     },
 
 	this.getQuestions = function(catid) {

@@ -29,8 +29,7 @@ var ProfileView = function (data) {
                     });
                 });
                 $("#delete").click(function(){
-                    app.model.deleteProgress();
-                    window.location.reload();
+                    app.model.deleteProgress().done(window.location.reload());
                 });
             });
         } else {
