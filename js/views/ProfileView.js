@@ -28,6 +28,9 @@ var ProfileView = function (data) {
                         label: '%'
                     });
                 });
+                $("#placeholder").click(function(){
+                    $('#popupConfirm').popup('open');
+                });
                 $("#delete").click(function(){
                     app.model.deleteProgress().done(window.location.reload());
                 });

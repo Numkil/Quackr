@@ -134,13 +134,18 @@ var Model = function () {
 
     this.deleteProgress = function(){
         var deferration = $.Deferred();
-            $.post(this.userURL + 'reset',
-                    function (result){
-                        log('delete result:' +result);
-    		            $.jStorage.flush();
-                        deferration.resolve();
-                    }
-            );
+        $.ajax({
+            url: this.userURL + 'reset',
+            type: "POST",
+            cache: false,
+            success: function (data) {
+                log('delete result:' +result);
+    		    $.jStorage.flush();
+            },
+            complete: function (){
+                deferration.resolve();
+            },
+        });
     return deferration;
     },
 
