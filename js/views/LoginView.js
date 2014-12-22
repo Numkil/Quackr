@@ -16,30 +16,43 @@ var LoginView = function (data) {
 		} else {
 			log('loginview, no data');
 
-        	//Setup authentication/login form
-			$(document).on('click', "#loginbtn", function(e) {
-				e.preventDefault();
-				app.lock.show({ icon: 'css/images/logo.svg' }, function(err, profile, token) {
-			    if (err) {
-			      // Error callback
-			      log('Login failed.. ' + err);
-			    } else {
-			      // Success callback
-			      log('Logged in successfully!');
-			      // Save the JWT token.
-			      localStorage.setItem('userToken', token);
-			      localStorage.setItem('userID', profile.user_id);
-			      log('userID set = ' + localStorage.getItem('userID'));
-			      // We are logged in from now on
-			      app.loggedin = true;
-			      // Save the profile
-			      app.userProfile = profile;
-			      setInfoMessage('Welcome back ' + profile.given_name + "!");
-			      redirect('#overview');
-			    }
-			  });
-			});
-			render('login', {});
+			//Is this our first run?
+			var first = app.model.getLocal('first');
+			var loggedin = (app.model.getLocal('userToken') && app.getLocal('userID'));
+
+			if (first || !loggedin){
+				setInfoMessage("We need internet access the first time to fetch some goodness.");
+	        	//Setup authentication/login form
+				$(document).on('click', "#loginbtn", function(e) {
+					e.preventDefault();
+					app.lock.show({ icon: 'css/images/logo.svg' }, function(err, profile, token) {
+				    if (err) {
+				      // Error callback
+				      log('Login failed.. ' + err);
+				    } else {
+				      // Success callback
+				      log('Logged in successfully!');
+				      // Save the JWT token.
+				      localStorage.setItem('userToken', token);
+				      localStorage.setItem('userID', profile.user_id);
+				      log('userID set = ' + localStorage.getItem('userID'));
+				      // We are logged in from now on
+				      app.loggedin = true;
+				      // Save the profile
+				      app.userProfile = profile;
+				      setInfoMessage('Welcome back ' + profile.given_name + "!");
+
+				      redirect('#overview');
+				      
+  				      log('Prefetching questions for later use..');
+				      app.model.getMoreQuestions();
+				    }
+				  });
+				});
+				render('login', {});
+			} else if (loggedin && !first){
+				redirect('overview');
+			}
 		}
 	}
 

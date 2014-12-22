@@ -105,10 +105,13 @@ var Model = function () {
 
 	this.getMoreQuestions = function () {
 		var categories = this.getCategories();
+		var r = false;
 		categories.forEach(function (entry){
 			//Will be cached automagically.
 			//NOTE TO MYSELF: what about /random/x ?
-			var r = this.getQuestions(entry.id);
+			if (this.getQuestions(entry.id)){
+				r = true;
+			}
 		});
 		return ((r) && (r.length > 0));
 	},
@@ -147,12 +150,12 @@ var Model = function () {
 	},
 
 	this.storeSubmit = function (url, data){
-		log('Storing submit for ' + url);
+		log('Storing submit for ' + url);2
 		var submits = this.getLocal('submits');
 		if (!submits){
-			submits = {};
+			submits = [];
 		}
-		submits.push({url, data});
+		submits.push([url, data]);
 		this.putLocal('submits', submits);
 	},
 
@@ -262,7 +265,7 @@ var Model = function () {
 				log('Submitted progress.');
 				log(data);
 				//flush cache, because the server is updated
-				this.fetchNewQuestions();
+				this.getMoreQuestions();
 			} catch (err) {
 				log('Submit failed; ' + err);
 				error = true;
@@ -350,13 +353,6 @@ var Model = function () {
 
 	this.putLocal = function (key, value) {
 		return $.jStorage.set(key, value);
-	},
-
-	this.fetchNewQuestions = function () {
-		var cats = this.getCategories();
-		cats.forEach(function (entry){
-			this.getQuestions(entry.id);
-		});
 	},
 
 	this.initialize = function () {

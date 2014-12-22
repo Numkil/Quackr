@@ -3,7 +3,7 @@ var app = {
 	// Application Constructor
 		//Setup authenticator
 		log('Setting up auth0Lock');
-		this.lock = new Auth0Lock('vmUb00t7jWrGtysEAiyX6CwC5XlgRR4Y', 'quackr.auth0.com');
+		this.lock = new Auth0Lock('z0y1xeT9bMcjKuC0ftlsCjL3VWQbBbEE', 'quackrr.auth0.com');
 
 		this.model = new Model();
 
@@ -147,7 +147,6 @@ var app = {
 		    //-- we are sure user is logged in from now on
 		    if (hash.match(app.logoutURL)){
 		    	this.logout();
-		    	$.jStorage.flush();
 		    	return;
 		    } else if (hash.match(app.categoriesURL)){
 		    	var cv = new CategoriesView();
