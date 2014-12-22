@@ -138,6 +138,7 @@ var Model = function () {
 
 	this.doSubmits = function () {
 		//This could mean wrong submits if the user cancels/exits during this process. Only for a day, so meh.
+		log('Processing submits..');
 		var submits = this.getSubmits();
 		this.removeLocal('submits'); //only re-add when failed
 		submits.forEach( function (entry) {
@@ -146,6 +147,7 @@ var Model = function () {
 	},
 
 	this.storeSubmit = function (url, data){
+		log('Storing submit for ' + url);
 		var submits = this.getLocal('submits');
 		if (!submits){
 			submits = {};
