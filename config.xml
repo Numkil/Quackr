@@ -31,4 +31,7 @@
         <param name="ios-package" value="CDVInAppBrowser" />
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
+
+    <content src="index.html" />
+    <access origin="*" />
 </widget>
