@@ -69,11 +69,13 @@ var Model = function () {
 				return result;
 			} else {
 				if (result){
+					log('Putting result in cache..');
 					// Fill our local database
 					this.putLocal(input.trim(), result);
 					// Adjust/add the TTL
 					this.putLocal('TTL_' + input.trim(), now);
-					log('Putting result in cache..');
+					log('Put in cache:');
+					log(this.getLocal(input.trim()));
 					return result;
 				} else {
 					if (ttl){
@@ -108,15 +110,13 @@ var Model = function () {
 		var r = false;
 		categories.forEach(function (entry){
 			//Will be cached automagically.
-			//NOTE TO MYSELF: what about /random/x ?
 			log('Getting questions for category ' + entry.id);
-			var r2 = app.model.getQuestions(entry.id, true);
-			log(r2);
-			if (r2 != false){
+			var re = (app.model.getQuestions(entry.id, true));
+			if (re){
 				r = true;
 			}
 		});
-		return ((r) && (r.length > 0));
+		return r;
 	},
 
 	this.submit = function (url, data) {
