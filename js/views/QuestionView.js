@@ -5,8 +5,11 @@ var QuestionView = function (data) {
     var answered = app.model.getCategoryAnswered(data);
     if (answered){
       var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
-      $.extend(cat, progress);
-      log(cat);
+      /**
+       What does this do?
+       $.extend(cat, progress);
+       log(cat);
+      **/
       var gage = new JustGage({
           id: 'pb_question',
           value: (progress * 100),
@@ -41,11 +44,12 @@ var QuestionView = function (data) {
       log('Loading question..');
       result = app.model.getRandomQuestion(data);
       if (result){
-      	log(result);
-        result.catid = data;
+        log('This will be filled in:');
+        log(result);
         //result.category = app.model.getQuestions(data).categoryname;
       	render('question', {
       		question: result,
+          catid: data,
       	});
         this.createProgressBar();
       } else {
