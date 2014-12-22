@@ -29,10 +29,14 @@ var ProfileView = function (data) {
                     });
                 });
                 $("#placeholder").click(function(){
-                    $('#popupConfirm').popup('open');
-                });
-                $("#delete").click(function(){
-                    app.model.deleteProgress().done(window.location.reload());
+                    if(navigator.onLine){
+                        $('#popupConfirm').popup('open');
+                        $("#delete").click(function(){
+                            app.model.deleteProgress().done(window.location.reload());
+                        });
+                    }else{
+                        $('#popupNoInternet').popup('open');
+                    }
                 });
             });
         } else {
