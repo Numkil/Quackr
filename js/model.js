@@ -194,7 +194,7 @@ var Model = function () {
 			log(all);
 			r = false;
 		}
-		return r;
+		return r[0];
 	},
 
 	this.getCategories = function() {
