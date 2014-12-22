@@ -53,14 +53,14 @@ var Model = function () {
 	},
 
 	//Requirement: questions must be fetched at least once on first boot
-	this.getData = function (input){
+	this.getData = function (input, force){
 		var auth0_request = (input.indexOf('quackr.auth0.com') > -1);
 		if (!auth0_request){
 			var ttl = this.getLocal('TTL_' + input.trim());
 			log('TTL is ' + ttl + ' for ' + input);
 			var now = new Date();
 		}
-		if (auth0_request || (!ttl) || (Date(ttl) < now)){
+		if (auth0_request || (!ttl) || (Date(ttl) < now) || (force)){
 			log('Auth0 request or TTL expired/not existant. Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
@@ -109,7 +109,10 @@ var Model = function () {
 		categories.forEach(function (entry){
 			//Will be cached automagically.
 			//NOTE TO MYSELF: what about /random/x ?
-			if (this.getQuestions(entry.id)){
+			log('Getting questions for category ' + entry.id);
+			var r2 = app.model.getQuestions(entry.id, true);
+			log(r2);
+			if (r2 != false){
 				r = true;
 			}
 		});
@@ -171,9 +174,9 @@ var Model = function () {
                 );
     },
 
-	this.getQuestions = function(catid) {
+	this.getQuestions = function(catid, force) {
 		//GET secured/category/{id}(/random)
-		var r = this.getData(this.categoryURL + catid + '/random/' + '20');
+		var r = this.getData(this.categoryURL + catid + '/random/' + '20', force);
 		log('getQuestions for category ' + catid);
 		log(r);
 		return r;

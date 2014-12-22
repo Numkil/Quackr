@@ -4,8 +4,6 @@ var ProfileView = function (data) {
     this.initialize = function () {
         // View constructor
         if (app.loggedin == true){
-            log('Profile:');
-            log(app.userProfile);
             var cats = app.model.getCategories();
             var provider = app.userProfile.identities[0].provider;
             //var myRegex = /(.*)\-oauth2/;
