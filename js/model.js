@@ -112,41 +112,58 @@ var Model = function () {
 		});
 		return ((r) && (r.length > 0));
 	},
-/**
-	this.convertAPIdata = function (input) {
-		//Converts API JSON to something easier to work with
-		var result = [];
 
-		input.questions.forEach(function (entry) {
-			//
-		});
+	this.submit = function (url, data) {
+		//Handle everything in once
+		this.storeSubmit(url, data);
+		this.doSubmits();
+	}
 
-		return result;
+	this.dosubmit = function(url, data) {
+		log('Submitting:');
+		log(data);
+		$.post( url, JSON.stringify(data), "json")
+			.done( function () {
+			  	log('submit successful!');
+			    log('Submitting our queue..');
+			    //if a submit is successful, let it be.
+			    this.doSubmits();
+			})
+			.fail( function (){
+				log('submit failed for ' + url + '. Adding to local queue.');
+				//if a submit failed, re-add it locally
+				this.storeSubmit(url, data);
+			});
 	},
-**/
-	this.submit = function(url, data) {
-		$.post( url, JSON.stringify(data),
-		  function( result ) {
-		  	log('submit result: ' + result);
-		    return result;
-		}, "json");
+
+	this.doSubmits = function () {
+		//This could mean wrong submits if the user cancels/exits during this process. Only for a day, so meh.
+		var submits = this.getSubmits();
+		this.removeLocal('submits'); //only re-add when failed
+		submits.forEach( function (entry) {
+			dosubmit(entry.url, entry.data);
+		});
+	},
+
+	this.storeSubmit = function (url, data){
+		var submits = this.getLocal('submits');
+		if (!submits){
+			submits = {};
+		}
+		submits.push({url, data});
+		this.putLocal('submits', submits);
+	},
+
+	this.getSubmits = function () {
+		return this.getLocal('submits');
 	},
 
     this.deleteProgress = function(){
-        var deferration = $.Deferred();
-        $.ajax({
-            url: this.userURL + 'reset',
-            type: "POST",
-            cache: false,
-            success: function (data) {
-                log('delete result:' +result);
-    		    $.jStorage.flush();
-            },
-            complete: function (){
-                deferration.resolve();
-            },
-        });
-    return deferration;
+        $.post(this.userURL + 'reset',
+                function (result){
+                    log('delete result:' +result);
+                }
+                );
     },
 
 	this.getQuestions = function(catid) {
@@ -156,16 +173,7 @@ var Model = function () {
 		log(r);
 		return r;
 	},
-/**
-	this.getQuestion_DEL = function(catid, questionid) {
-		//return this.getData(this.questionURL + questionid);
-		var result = false;
-		this.getQuestions(catid).forEach(function (entry){
-			log(entry);
-		});
-		return result;
-	}
-**/
+
 	this.getRandomQuestion = function(catid) {
 		//return this.getData(this.categoryURL + catid + '/random');
 		var all = this.getQuestions(catid);
@@ -251,6 +259,8 @@ var Model = function () {
 				this.submit(this.submitURL, data);
 				log('Submitted progress.');
 				log(data);
+				//flush cache, because the server is updated
+				this.fetchNewQuestions();
 			} catch (err) {
 				log('Submit failed; ' + err);
 				error = true;
@@ -313,7 +323,7 @@ var Model = function () {
 	this.incorrect = function (questionid) {
 		//update numbers
 		//http://d00med.net/quackr/secured/user/1/progress
-		//TODO: update wrong
+		
 
 		var wrong = this.getLocal('wrong');
 		if (wrong){
@@ -338,6 +348,13 @@ var Model = function () {
 
 	this.putLocal = function (key, value) {
 		return $.jStorage.set(key, value);
+	},
+
+	this.fetchNewQuestions = function () {
+		var cats = this.getCategories();
+		cats.forEach(function (entry){
+			this.getQuestions(entry.id);
+		});
 	},
 
 	this.initialize = function () {
