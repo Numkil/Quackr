@@ -59,6 +59,7 @@ var shake = (function () {
 
     // Handle errors here
     function handleError() {
+        alert('shake error');
     }
 
     return shake;
