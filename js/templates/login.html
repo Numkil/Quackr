@@ -21,15 +21,23 @@
                 <!--
                 <a href="#register" data-icon="flat-new" class="ui-btn ui-btn-c ui-icon-flat-plus ui-btn-icon-left ui-shadow fullwidth">Create account?</a>
             -->
+                <p id="deviceIsReady"></p>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript" charset="utf-8">
 
-var onShake = function(){
-    alert('drugs');
-};
+ document.addEventListener("deviceready",onDeviceReady,false);
+// Cordova is ready to be used!
+//
+function onDeviceReady() {
+var element = document.getElementById('deviceIsReady');
+element.innerHTML = 'Watching shake movement...';
 shake.startWatch(onShake);
-
+}
+function onShake() {
+var element = document.getElementById('shakeData');
+element.innerHTML = 'It\'s happening!'
+}
 </script>
