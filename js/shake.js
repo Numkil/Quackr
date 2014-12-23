@@ -10,6 +10,7 @@ var shake = (function () {
     shake.startWatch = function (onShake) {
         alert('method called');
         if (onShake) {
+            alert('shaking!');
             shakeCallBack = onShake;
         }
         watchId = navigator.accelerometer.watchAcceleration(getAccelerationSnapshot, handleError, options);
