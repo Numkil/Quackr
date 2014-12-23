@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns   = "http://www.w3.org/ns/widgets"
     xmlns:gap   = "http://phonegap.com/ns/1.0"
-    id          = "com.phonegap.example" 
+    id          = "com.nieKev.quackr" 
     version     = "1.0.0" >
 
     <name>Quackr</name>
@@ -21,6 +21,10 @@
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="org.apache.cordova.device-motion" />
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 
     <!-- cache data -->
     <feature name="http://api.phonegap.com/1.0/file"/>
