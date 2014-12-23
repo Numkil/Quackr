@@ -20,8 +20,7 @@
     <gap:plugin name="org.apache.cordova.dialogs" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <gap:plugin name="Accelerometer" value="org.apache.cordova.core.AccelListener" />
-
+    <gap:plugin name="org.apache.cordova.device-motion" />
 
     <!-- cache data -->
     <feature name="http://api.phonegap.com/1.0/file"/>
@@ -33,6 +32,10 @@
     <feature name="InAppBrowser">
         <param name="ios-package" value="CDVInAppBrowser" />
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="Accelerometer">
+        <param name="android-package" value="org.apache.cordova.devicemotion.AccelListener" />
+        <param name="ios-package" value="CDVAccelerometer" />
     </feature>
     <content src="index.html" />
     <access origin="*" />
