@@ -34,7 +34,8 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // device APIs are available
 //
 function onDeviceReady() {
-    navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
+    var options = { frequence: 3000 };
+    navigator.accelerometer.getCurrentAcceleration(onSuccess, onError, options);
 }
 
 // onSuccess: Get a snapshot of the current acceleration
