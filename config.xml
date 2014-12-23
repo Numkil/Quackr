@@ -20,7 +20,7 @@
     <gap:plugin name="org.apache.cordova.dialogs" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <gap:plugin name="Accelerometer" value="org.apache.cordova.core.AccelListener" />
+    <gap:plugin name="org.apache.cordova.core.AccelListener" />
 
 
     <!-- cache data -->
