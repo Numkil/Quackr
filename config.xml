@@ -22,7 +22,6 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="org.apache.cordova.device-motion" />
 
-
     <!-- cache data -->
     <feature name="http://api.phonegap.com/1.0/file"/>
     <!-- get location to find nearby competitors -->
@@ -34,7 +33,10 @@
         <param name="ios-package" value="CDVInAppBrowser" />
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
-
+    <feature name="Accelerometer">
+        <param name="android-package" value="org.apache.cordova.devicemotion.AccelListener" />
+        <param name="ios-package" value="CDVAccelerometer" />
+    </feature>
     <content src="index.html" />
     <access origin="*" />
 </widget>
