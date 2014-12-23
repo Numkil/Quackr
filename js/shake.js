@@ -8,6 +8,7 @@ var shake = (function () {
 
     // Start watching the accelerometer for a shake gesture
     shake.startWatch = function (onShake) {
+        alert('method called');
         if (onShake) {
             shakeCallBack = onShake;
         }
