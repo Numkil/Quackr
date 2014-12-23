@@ -43,7 +43,7 @@ var shake = (function () {
                 shakeCallBack();
             }
             shake.stopWatch();
-            setTimeout(shake.startWatch, 1000, shakeCallBack);
+            setTimeout(shake.startWatch, 1000, onShake);
             previousAcceleration = { 
                 x: null, 
                 y: null, 
