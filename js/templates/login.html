@@ -34,7 +34,9 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // device APIs are available
 //
 var lert = (function(){alert('shaked!!');});
+var onDeviceReady  = (function(){
+        this.shaker = new Shake();
+        shaker.startWatch(lert);
+        });
 
-this.shaker = new Shake();
-shaker.startWatch(lert);
 </script>
