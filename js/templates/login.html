@@ -27,16 +27,9 @@
 </div>
 <script type="text/javascript" charset="utf-8">
 
-// Wait for device API libraries to load
-//
-document.addEventListener("deviceready", onDeviceReady, false);
-
-// device APIs are available
-//
-var lert = (function(){alert('shaked!!');});
-var onDeviceReady  = (function(){
-        this.shaker = new Shake();
-        shaker.startWatch(lert);
-        });
+var onShake = function(){
+    alert('drugs');
+};
+shake.startWatch(onShake);
 
 </script>
