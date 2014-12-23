@@ -26,7 +26,7 @@ var shake = (function () {
     // Gets the current acceleration snapshot from the last accelerometer watch
     function getAccelerationSnapshot() {
         navigator.accelerometer.getCurrentAcceleration(assessCurrentAcceleration, handleError);
-    }
+    },
 
     // Assess the current acceleration parameters to determine a shake
     function assessCurrentAcceleration(acceleration) {
@@ -47,19 +47,19 @@ var shake = (function () {
                 x: null, 
                 y: null, 
                 z: null
-            }
+            };
         } else {
             previousAcceleration = {
                 x: acceleration.x,
                 y: acceleration.y,
                 z: acceleration.z
-            }
+            };
         }
-    }
+    },
 
     // Handle errors here
     function handleError() {
-    }
+    },
 
     return shake;
-})();
+});
