@@ -8,9 +8,7 @@ var shake = (function () {
 
     // Start watching the accelerometer for a shake gesture
     shake.startWatch = function (onShake) {
-        alert('method called');
         if (onShake) {
-            alert('shaking!');
             shakeCallBack = onShake;
         }
         watchId = navigator.accelerometer.watchAcceleration(getAccelerationSnapshot, handleError, options);
@@ -39,10 +37,11 @@ var shake = (function () {
         }
         if (accelerationChange.x + accelerationChange.y + accelerationChange.z > 30) {
             // Shake detected
+            alert('shaking!!');
             if (typeof (shakeCallBack) === "function") {
                 shakeCallBack();
             }
-            //shake.stopWatch();
+            shake.stopWatch();
             setTimeout(shake.startWatch, 1000, shakeCallBack);
             previousAcceleration = { 
                 x: null, 
