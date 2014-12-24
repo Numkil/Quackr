@@ -56,7 +56,7 @@ var Model = function () {
 	this.getData = function (input, force){
 		var auth0_request = (input.indexOf('quackr.auth0.com') > -1);
 		if (!auth0_request){
-			var ttl = this.getLocal('TTL_' + input.trim());
+		    var ttl = this.getLocal('TTL_' + input.trim());
 			log('TTL is ' + ttl + ' for ' + input);
 			var now = new Date();
 		}
@@ -167,11 +167,19 @@ var Model = function () {
 	},
 
     this.deleteProgress = function(){
-        $.post(this.userURL + 'reset',
-                function (result){
-                    log('delete result:' +result);
-                }
-                );
+        var deferration = $.Deferred();
+        $.ajax({
+            url: this.userURL + 'reset',
+            type: 'POST',
+            cache: true,
+            success: function (data) {
+                log('delete result:' +data);
+            },
+            complete: function (){
+                deferration.resolve();
+            },
+        });
+        return deferration;
     },
 
 	this.getQuestions = function(catid, force) {

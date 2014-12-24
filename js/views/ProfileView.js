@@ -6,8 +6,8 @@ var ProfileView = function (data) {
         if (app.loggedin == true){
             var cats = app.model.getCategories();
             var provider = app.userProfile.identities[0].provider;
-            //var myRegex = /(.*)\-oauth2/;
-            //var provider = myRegex.exec(provider)[1];
+            var myRegex = /(.*)\-oauth2/;
+            provider = myRegex.exec(provider)[1];
 
             render('profile', {
                 name: app.userProfile.name,
@@ -32,7 +32,10 @@ var ProfileView = function (data) {
                     if(navigator.onLine){
                         $('#popupConfirm').popup('open');
                         $("#delete").click(function(){
-                            app.model.deleteProgress().done(window.location.reload());
+                            app.model.deleteProgress().done( function(){
+                                $.jStorage.flush();
+                                redirect('#profile');
+                            });
                         });
                     }else{
                         $('#popupNoInternet').popup('open');
