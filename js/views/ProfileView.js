@@ -25,7 +25,8 @@ var ProfileView = function (data) {
                         min: 0,
                         max: 100,
                         title: ' ',
-                        label: '%'
+                        label: '%',
+                        donut: true,
                     });
                 });
                 $("#placeholder").click(function(){
