@@ -53,10 +53,11 @@ var QuestionView = function (data) {
                 }).done( function (){
                     function onShake() {
                         var element = document.getElementById('deviceIsReady');
-                        element.innerHTML = 'It\'s happening!';
+                        element.innerHTML = 'Hang on changing question!';
+                        redirect('question?id=' + data);
                     }
                     var element = document.getElementById('deviceIsReady');
-                    element.innerHTML = 'Watching shake movement...';
+                    element.innerHTML = 'Rather have another question? Just give your phone a good shake!';
                     shake.startWatch(onShake);
                     this.createProgressBar();
                 });
