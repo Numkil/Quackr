@@ -16,7 +16,8 @@ var QuestionView = function (data) {
                 min: 0,
                 max: 100,
                 title: '',
-                label: '%'
+                label: '%',
+                donut: true,
             });
             /**
               var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
@@ -38,6 +39,20 @@ var QuestionView = function (data) {
     },
 
     this.initialize = function () {
+
+        var retrieveNewQuestion = function(){
+            //try retrieving more
+            log('Trying to retrieve more questions for the cache..');
+            if (app.model.getMoreQuestions()){
+                log('YES! Reloading..');
+                redirect('question?id=' + data);
+            } else {
+                log('Nope, failed.');
+                setInfoMessage('There are no questions left! Turn on internet access and try this again.');
+                goToScreen();
+            }
+        };
+
         // View constructor
         if (app.loggedin == true){
             //Show all categories
@@ -46,32 +61,16 @@ var QuestionView = function (data) {
             if (result){
                 log('This will be filled in:');
                 log(result);
-                //result.category = app.model.getQuestions(data).categoryname;
                 render('question', {
                     question: result,
                     catid: data,
                 }).done( function (){
-                    function onShake() {
-                        var element = document.getElementById('deviceIsReady');
-                        element.innerHTML = 'Hang on changing question!';
-                        redirect('question?id=' + data);
-                    }
-                    var element = document.getElementById('deviceIsReady');
-                    element.innerHTML = 'Rather have another question? Just give your phone a good shake!';
-                    shake.startWatch(onShake);
+                    shake.startWatch(retrieveNewQuestion);
                     this.createProgressBar();
                 });
             } else {
-                //try retrieving more
-                log('Trying to retrieve more questions for the cache..');
-                if (app.model.getMoreQuestions()){
-                    log('YES! Reloading..');
-                    redirect('question?id=' + data);
-                } else {
-                    log('Nope, failed.');
-                    setInfoMessage('There are no questions left! Turn on internet access and try this again.');
-                    goToScreen();
-                }
+                shake.stopWatch();
+                retrieveNewQuestion();
             }
         } else {
             //Re-render and show login page with login filled in
