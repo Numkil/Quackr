@@ -62,7 +62,7 @@ var Model = function () {
 			now.setDate(now.getDate() - 1);
 		}
 		if (auth0_request || (!ttl) || (Date(ttl) < now) || (force)){
-			log('Auth0 request or TTL expired/not existant. Fetching online..');
+			log('Auth0 request or TTL expired/not existant. (' + Date(ttl) + ' vs ' + now + ') Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
 			//result = this.convertAPIdata(result);
@@ -298,7 +298,7 @@ var Model = function () {
 				var cat_id = cat.id;
 				var all_question = app.model.getQuestions(cat_id);
 				if (all_question){
-					all_question.forEach(function(question){
+					all_question.questions.forEach(function(question){
 						var question_id = question.id;
 						if (question.id != questionid){
 							new_arr.push(question);
