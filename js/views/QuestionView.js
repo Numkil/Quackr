@@ -41,20 +41,14 @@ var QuestionView = function (data) {
     this.initialize = function () {
 
         var retrieveNewQuestion = function(){
+            shake.stopWatch();
             //Loading screen on fetching a new question
-            var element = $('#loader'),
-            theme = element.jqmData( "theme" ) || $.mobile.loader.prototype.options.theme,
-            msgText = element.jqmData( "msgtext" ) || $.mobile.loader.prototype.options.text,
-                textVisible = element.jqmData( "textvisible" ) || $.mobile.loader.prototype.options.textVisible,
-                textonly = !!element.jqmData( "textonly" );
-            html = element.jqmData( "html" ) || "";
-            $.mobile.loading( 'show', {
-                text: msgText,
-                textVisible: textVisible,
-                theme: theme,
-                textonly: textonly,
-                html: html
-            }); 
+            $.mobile.loading( "show", {
+                text: "Fetching new question!",
+                textVisible: true,
+                theme: "b",
+                html: ""
+            });
 
             //try retrieving more
             log('Trying to retrieve more questions for the cache..');
@@ -84,7 +78,6 @@ var QuestionView = function (data) {
                     this.createProgressBar();
                 });
             } else {
-                shake.stopWatch();
                 retrieveNewQuestion();
             }
         } else {
