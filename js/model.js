@@ -59,7 +59,7 @@ var Model = function () {
 		    var ttl = this.getLocal('TTL_' + input.trim());
 			log('TTL is ' + ttl + ' for ' + input);
 			var now = new Date();
-			now.setDate(now.getDate() + 1);
+			now.setDate(now.getDate() - 1);
 		}
 		if (auth0_request || (!ttl) || (Date(ttl) < now) || (force)){
 			log('Auth0 request or TTL expired/not existant. Fetching online..');
