@@ -58,7 +58,7 @@ var QuestionView = function (data) {
             } else {
                 log('Nope, failed.');
                 setInfoMessage('There are no questions left! Turn on internet access and try this again.');
-                goToScreen();
+                redirect('categories');
             }
         };
 

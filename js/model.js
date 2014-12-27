@@ -35,10 +35,10 @@ var Model = function () {
 
 
 	this.getImage = function(url, callback, output) {
-	    var canvas = document.createElement('CANVAS'),
-	        ctx = canvas.getContext('2d'),
-	        img = new Image;
-	    img.crossOrigin = 'Anonymous';
+	    var canvas = document.createElement('CANVAS');
+	    ctx = canvas.getContext('2d');
+	    img = new Image;
+	   	img.crossOrigin = 'Anonymous';
 	    img.onload = function(){
 	        var dataURL;
 	        canvas.height = img.height;
@@ -59,6 +59,7 @@ var Model = function () {
 		    var ttl = this.getLocal('TTL_' + input.trim());
 			log('TTL is ' + ttl + ' for ' + input);
 			var now = new Date();
+			now.setDate(now.getDate() + 1);
 		}
 		if (auth0_request || (!ttl) || (Date(ttl) < now) || (force)){
 			log('Auth0 request or TTL expired/not existant. Fetching online..');
@@ -295,7 +296,7 @@ var Model = function () {
 		all.forEach(function(cat){
 			if (!done){
 				var cat_id = cat.id;
-				var all_question = this.getQuestions(cat_id);
+				var all_question = app.model.getQuestions(cat_id);
 				all_question.forEach(function(question){
 					var question_id = question.id;
 					if (question.id != questionid){
