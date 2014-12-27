@@ -297,21 +297,23 @@ var Model = function () {
 			if (!done){
 				var cat_id = cat.id;
 				var all_question = app.model.getQuestions(cat_id);
-				all_question.forEach(function(question){
-					var question_id = question.id;
-					if (question.id != questionid){
-						new_arr.push(question);
-					} else {
-						log('question ' + questionid + ' found!');
-						//found the category
-						done = true;
+				if (all_question){
+					all_question.forEach(function(question){
+						var question_id = question.id;
+						if (question.id != questionid){
+							new_arr.push(question);
+						} else {
+							log('question ' + questionid + ' found!');
+							//found the category
+							done = true;
+						}
+					});
+					if (done){
+						//this is the category you're looking for. Replace cached questions with a version without the question
+						log('New cached version:');
+						log(new_arr);
+						this.putLocal(this.categoryURL + cat.id, new_arr);
 					}
-				});
-				if (done){
-					//this is the category you're looking for. Replace cached questions with a version without the question
-					log('New cached version:');
-					log(new_arr);
-					this.putLocal(this.categoryURL + cat.id, new_arr);
 				}
 			}
 		});
