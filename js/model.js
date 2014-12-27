@@ -61,7 +61,7 @@ var Model = function () {
 			var now = new Date();
 			now.setDate(now.getDate() - 1);
 		}
-		if (auth0_request || (!ttl) || (Date(ttl) < now) || (force)){
+        if (auth0_request || (!ttl) || dates.compare(Date(ttl), now) == -1 || (force)){
 			log('Auth0 request or TTL expired/not existant. (' + Date(ttl) + ' vs ' + now + ') Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
