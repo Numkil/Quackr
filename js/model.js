@@ -293,6 +293,7 @@ var Model = function () {
 	this.removeQuestionFromCache = function (questionid) {
 		var all = this.getCategories();
 		var done = false;
+		new_arr = [];
 		all.forEach(function(cat){
 			if (!done){
 				var cat_id = cat.id;
