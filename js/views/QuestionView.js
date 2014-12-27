@@ -77,6 +77,12 @@ var QuestionView = function (data) {
                 }).done( function (){
                     shake.startWatch(retrieveNewQuestion);
                     this.createProgressBar();
+                    $.mobile.loading( "show", {
+                        text: "Fetching new question!",
+                        textVisible: true,
+                        theme: "b",
+                        html: ""
+                    });
                 });
             } else {
                 retrieveNewQuestion();
