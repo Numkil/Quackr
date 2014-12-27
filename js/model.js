@@ -35,10 +35,10 @@ var Model = function () {
 
 
 	this.getImage = function(url, callback, output) {
-	    var canvas = document.createElement('CANVAS'),
-	        ctx = canvas.getContext('2d'),
-	        img = new Image;
-	    img.crossOrigin = 'Anonymous';
+	    var canvas = document.createElement('CANVAS');
+	    ctx = canvas.getContext('2d');
+	    img = new Image;
+	   	img.crossOrigin = 'Anonymous';
 	    img.onload = function(){
 	        var dataURL;
 	        canvas.height = img.height;
@@ -59,9 +59,10 @@ var Model = function () {
 		    var ttl = this.getLocal('TTL_' + input.trim());
 			log('TTL is ' + ttl + ' for ' + input);
 			var now = new Date();
+			now.setDate(now.getDate() - 1);
 		}
 		if (auth0_request || (!ttl) || (Date(ttl) < now) || (force)){
-			log('Auth0 request or TTL expired/not existant. Fetching online..');
+			log('Auth0 request or TTL expired/not existant. (' + Date(ttl) + ' vs ' + now + ') Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
 			//result = this.convertAPIdata(result);
@@ -292,25 +293,28 @@ var Model = function () {
 	this.removeQuestionFromCache = function (questionid) {
 		var all = this.getCategories();
 		var done = false;
+		new_arr = [];
 		all.forEach(function(cat){
 			if (!done){
 				var cat_id = cat.id;
-				var all_question = this.getQuestions(cat_id);
-				all_question.forEach(function(question){
-					var question_id = question.id;
-					if (question.id != questionid){
-						new_arr.push(question);
-					} else {
-						log('question ' + questionid + ' found!');
-						//found the category
-						done = true;
+				var all_question = app.model.getQuestions(cat_id);
+				if (all_question){
+					all_question.questions.forEach(function(question){
+						var question_id = question.id;
+						if (question.id != questionid){
+							new_arr.push(question);
+						} else {
+							log('question ' + questionid + ' found!');
+							//found the category
+							done = true;
+						}
+					});
+					if (done){
+						//this is the category you're looking for. Replace cached questions with a version without the question
+						log('New cached version:');
+						log(new_arr);
+						this.putLocal(this.categoryURL + cat.id, new_arr);
 					}
-				});
-				if (done){
-					//this is the category you're looking for. Replace cached questions with a version without the question
-					log('New cached version:');
-					log(new_arr);
-					this.putLocal(this.categoryURL + cat.id, new_arr);
 				}
 			}
 		});

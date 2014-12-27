@@ -74,11 +74,10 @@ function guess(catid, questionid){
         var correct = false;
         //Support for multiple possibilities
         answers.forEach(function (entry){
-                log('answer ' + entry+ ' == answered ' + selected + ' ?');
-                if (entry === selected){
-                correct = true;
-                }
-                });
+            if (entry === selected){
+            correct = true;
+            }
+        });
 
         if (correct){
             log('Question correct!');
@@ -87,8 +86,8 @@ function guess(catid, questionid){
         } else {
             log('Question incorrect!');
             app.model.incorrect(questionid);
-            setErrorMessage("Woops! You got it wrong! Try again...");
-            redirect('question?id=' + questionid);
+            setErrorMessage("Woops! You got it wrong! Try this one...");
+            redirect('question?id=' + catid);
         }
     }
 }

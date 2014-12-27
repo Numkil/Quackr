@@ -58,7 +58,7 @@ var QuestionView = function (data) {
             } else {
                 log('Nope, failed.');
                 setInfoMessage('There are no questions left! Turn on internet access and try this again.');
-                goToScreen();
+                redirect('categories');
             }
         };
 
@@ -70,9 +70,10 @@ var QuestionView = function (data) {
             if (result){
                 log('This will be filled in:');
                 log(result);
+                result.catid = data;
                 render('question', {
                     question: result,
-                    catid: data,
+                    //catid: data,
                 }).done( function (){
                     shake.startWatch(retrieveNewQuestion);
                     this.createProgressBar();
