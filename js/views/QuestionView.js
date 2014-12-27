@@ -41,6 +41,21 @@ var QuestionView = function (data) {
     this.initialize = function () {
 
         var retrieveNewQuestion = function(){
+            //Loading screen on fetching a new question
+            var $this = $( this ),
+            theme = $this.jqmData( "theme" ) || $.mobile.loader.prototype.options.theme,
+            msgText = $this.jqmData( "msgtext" ) || $.mobile.loader.prototype.options.text,
+                textVisible = $this.jqmData( "textvisible" ) || $.mobile.loader.prototype.options.textVisible,
+                textonly = !!$this.jqmData( "textonly" );
+            html = $this.jqmData( "html" ) || "";
+            $.mobile.loading( 'show', {
+                text: msgText,
+                textVisible: textVisible,
+                theme: theme,
+                textonly: textonly,
+                html: html
+            }); 
+
             //try retrieving more
             log('Trying to retrieve more questions for the cache..');
             if (app.model.getMoreQuestions()){
@@ -65,22 +80,7 @@ var QuestionView = function (data) {
                     question: result,
                     catid: data,
                 }).done( function (){
-                    shake.startWatch(function(){
-                        var $this = $( this ),
-                        theme = $this.jqmData( "theme" ) || $.mobile.loader.prototype.options.theme,
-                        msgText = $this.jqmData( "msgtext" ) || $.mobile.loader.prototype.options.text,
-                            textVisible = $this.jqmData( "textvisible" ) || $.mobile.loader.prototype.options.textVisible,
-                            textonly = !!$this.jqmData( "textonly" );
-                        html = $this.jqmData( "html" ) || "";
-                        $.mobile.loading( 'show', {
-                            text: msgText,
-                            textVisible: textVisible,
-                            theme: theme,
-                            textonly: textonly,
-                            html: html
-                        }); 
-                        retrieveNewQuestion();
-                    });
+                    shake.startWatch(retrieveNewQuestion);
                     this.createProgressBar();
                 });
             } else {
