@@ -199,7 +199,7 @@ var Model = function () {
 	this.getRandomQuestion = function(catid) {
 		//return this.getData(this.categoryURL + catid + '/random');
 		var all = this.getQuestions(catid);
-		if (all && all.questions.length > 0){
+		if (all && all.questions && all.questions.length > 0){
 			var r = all.questions[Math.floor(Math.random()*all.questions.length)];
 			log('Random question;');
 			log(r);
