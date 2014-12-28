@@ -5,11 +5,6 @@ var QuestionView = function (data) {
         var answered = app.model.getCategoryAnswered(data);
         if (answered){
             var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
-            /**
-              What does this do?
-              $.extend(cat, progress);
-              log(cat);
-             **/
             var gage = new JustGage({
                 id: 'pb_question',
                 value: (progress * 100),
@@ -19,22 +14,6 @@ var QuestionView = function (data) {
                 label: '%',
                 donut: true,
             });
-            /**
-              var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
-              log('Current category progress: ' + progress);
-              $.getScript('js/progressbar.js').done(function(){
-            //create the progressbar
-            jQMProgressBar('pb_question')
-            .setOuterTheme('b')
-            .setInnerTheme('e')
-            .isMini(true)
-            .setMax(progress)
-            .setStartFrom(0)
-            .setInterval(10)
-            .showCounter(true)
-            .build()
-            .run();
-            });**/
         }
     },
 
@@ -42,17 +21,12 @@ var QuestionView = function (data) {
 
         var retrieveNewQuestion = function(){
             shake.stopWatch();
-            //Loading screen on fetching a new question
-            //$.mobile.loading( "show", {
-            //text: "Fetching new question!",
-            //textVisible: true,
-            //theme: "b",
-            //html: ""
-            //});
 
-            var message = $('deviceIsReady');
-            message.innerHTML = "Fetching new Question";
-            message.style.color = "red";
+            var message = $('#deviceIsReady');
+            if (message){
+                message.innerHTML = "Fetching new Question";
+                message.style.color = "red";
+            }
 
             //try retrieving more
             log('Trying to retrieve more questions for the cache..');
