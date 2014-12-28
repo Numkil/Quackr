@@ -58,11 +58,12 @@ var Model = function () {
 		if (!auth0_request){
 		    var ttl = this.getLocal('TTL_' + input.trim());
 			log('TTL is ' + ttl + ' for ' + input);
-			var now = new Date();
-			now.setDate(now.getDate() - 1);
+			now = new Date();
+			now.setDate(now.getDate());
+			log('(' + ttl + ' vs ' + now.getTime() + ')');
 		}
-        if (auth0_request || (!ttl) || dates.compare(Date(ttl), now) == -1 || (force)){
-			log('Auth0 request or TTL expired/not existant. (' + Date(ttl) + ' vs ' + now + ') Fetching online..');
+        if (auth0_request || (!ttl) || (isNaN(ttl)) || ttl <= now.getTime() || (force)){
+			log('Auth0 request or TTL expired/not existant. Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
 			//result = this.convertAPIdata(result);
@@ -74,7 +75,8 @@ var Model = function () {
 					// Fill our local database
 					this.putLocal(input.trim(), result);
 					// Adjust/add the TTL
-					this.putLocal('TTL_' + input.trim(), now);
+					now.setTime(now.getTime() + 1);
+					this.putLocal('TTL_' + input.trim(), now.getTime());
 					log('Put in cache:');
 					log(this.getLocal(input.trim()));
 					return result;
