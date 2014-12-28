@@ -23,10 +23,8 @@ var QuestionView = function (data) {
             shake.stopWatch();
 
             var message = $('#deviceIsReady');
-            if (message){
-                message.innerHTML = "Fetching new Question";
-                message.style.color = "red";
-            }
+            message.innerHTML = "Fetching new Question";
+            message.css('color', 'red');
 
             //try retrieving more
             log('Trying to retrieve more questions for the cache..');
