@@ -50,6 +50,10 @@ var QuestionView = function (data) {
                 //html: ""
             //});
 
+            var message = $('deviceIsReady');
+            message.innerHTML = "Fetching new Question";
+            message.style.color = "red";
+
             //try retrieving more
             log('Trying to retrieve more questions for the cache..');
             if (app.model.getMoreQuestions()){
