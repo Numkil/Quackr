@@ -61,8 +61,13 @@ var Model = function () {
 			var now = new Date();
 			now.setDate(now.getDate() - 1);
 		}
+<<<<<<< HEAD
+		if (auth0_request || (!ttl) || ((new Date(ttl)).getTime() < now.getTime()) || (force)){
+			log('Auth0 request or TTL expired/not existant. (' + Date(ttl) + ' < ' + now + ') Fetching online..');
+=======
         if (auth0_request || (!ttl) || dates.compare(Date(ttl), now) == -1 || (force)){
 			log('Auth0 request or TTL expired/not existant. (' + Date(ttl) + ' vs ' + now + ') Fetching online..');
+>>>>>>> 3901de0838b5135ee387f8ba33825b539830d66f
 			//if it doesnt exist cached or TTL is more than a day old
 			var result = this.getDataOnline(input);
 			//result = this.convertAPIdata(result);
@@ -293,7 +298,7 @@ var Model = function () {
 	this.removeQuestionFromCache = function (questionid) {
 		var all = this.getCategories();
 		var done = false;
-		new_arr = [];
+		new_arr = [];  
 		all.forEach(function(cat){
 			if (!done){
 				var cat_id = cat.id;
