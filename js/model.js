@@ -75,7 +75,7 @@ var Model = function () {
 					// Fill our local database
 					this.putLocal(input.trim(), result);
 					// Adjust/add the TTL
-					now.setTime(now.getTime() + 86400000); //one extra day
+					now.setTime(now.getTime() + 1); //one extra day
 					this.putLocal('TTL_' + input.trim(), now.getTime());
 					log('Put in cache:');
 					log(this.getLocal(input.trim()));
