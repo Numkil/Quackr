@@ -43,12 +43,12 @@ var QuestionView = function (data) {
         var retrieveNewQuestion = function(){
             shake.stopWatch();
             //Loading screen on fetching a new question
-            $.mobile.loading( "show", {
-                text: "Fetching new question!",
-                textVisible: true,
-                theme: "b",
-                html: ""
-            });
+            //$.mobile.loading( "show", {
+                //text: "Fetching new question!",
+                //textVisible: true,
+                //theme: "b",
+                //html: ""
+            //});
 
             //try retrieving more
             log('Trying to retrieve more questions for the cache..');
