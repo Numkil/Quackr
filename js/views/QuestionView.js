@@ -44,10 +44,10 @@ var QuestionView = function (data) {
             shake.stopWatch();
             //Loading screen on fetching a new question
             //$.mobile.loading( "show", {
-                //text: "Fetching new question!",
-                //textVisible: true,
-                //theme: "b",
-                //html: ""
+            //text: "Fetching new question!",
+            //textVisible: true,
+            //theme: "b",
+            //html: ""
             //});
 
             var message = $('deviceIsReady');
@@ -66,6 +66,12 @@ var QuestionView = function (data) {
             }
         };
 
+        //We don't want to have to back back back our way out of every single question we answered
+        //IT is not at all perfect but the best thing I can find for now
+        var backKeyDown = function(){
+            redirect('categories');
+        };
+
         // View constructor
         if (app.loggedin == true){
             //Show all categories
@@ -81,6 +87,7 @@ var QuestionView = function (data) {
                 }).done( function (){
                     shake.startWatch(retrieveNewQuestion);
                     this.createProgressBar();
+                    document.addEventListener("backbutton", backKeyDown, true);
                 });
             } else {
                 retrieveNewQuestion();
