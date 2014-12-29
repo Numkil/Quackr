@@ -37,6 +37,14 @@ var QuestionView = function (data) {
             }
         };
 
+        var goNextQuestion = function(catid){
+            shake.stopWatch();
+            var message = $('#deviceIsReady');
+            message.html("Fetching new question");
+            message.css('color', 'red');
+            redirect('next?id=' + catid);
+        };
+
         //We don't want to have to back back back our way out of every single question we answered
         //IT is not at all perfect but the best thing I can find for now
         var backKeyDown = function(){
@@ -57,7 +65,7 @@ var QuestionView = function (data) {
                     //catid: data,
                 }).done( function (){
                     log('Rendering done.');
-                    shake.startWatch(retrieveNewQuestions, data);
+                    shake.startWatch(goNextQuestion, data);
                     createProgressBar();
                     document.addEventListener("backbutton", backKeyDown, true);
                 });
