@@ -22,16 +22,16 @@
             <br>
             {{#with question}}
             <div class="innerdiv">
-                <div data-role="fieldcontain">
+                <div>
                     <div id="pb_question"></div>
                 </div>
                 <div class="ui-corner-all custom-corners">
                     <div class="ui-bar ui-bar-a">
-                        <h3>You are quackin' <strong>{{questions.0.category}}</strong> on difficulty <strong>Level {{lvl}}</strong></h3>
+                        <h3>You are quackin' <strong>{{category}}</strong> on difficulty <strong>Level {{lvl}}</strong></h3>
                     </div>
                     <div class="ui-body ui-body-a">
                         <p>
-                        {{question}}
+                            {{question}}
                         </p>
                         <br>
                         <div class="row">
