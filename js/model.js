@@ -112,16 +112,14 @@ var Model = function () {
 	this.getMoreQuestions = function () {
 		log('Getting the categories');
 		var categories = this.getCategories();
-		log('Categories:');
 		log(categories);
 		var r = false;
 		categories.forEach(function (entry){
 			//Will be cached automagically.
 			log('Getting questions for category ' + entry.id);
-			log('category:');
 			log(entry);
 			var re = (app.model.getQuestions(entry.id, true));
-			if (re){
+			if (re.questions.length > 0){
 				r = true;
 			}
 		});
@@ -209,7 +207,7 @@ var Model = function () {
 			log('Random question;');
 			log(r);
 		} else {
-			log('no random questions available');
+			log('no random question available');
 			log(all);
 			r = false;
 		}
@@ -244,9 +242,12 @@ var Model = function () {
 		var all = this.getQuestions(catid);
 		if (all.questions.length > 0){
 			for (i = 0; i < count && i <= all.questions.length; i++) {
-				var item = all.questions[Math.floor(Math.random()*all.questions.length)];
-				all.questions.splice(all.questions.indexOf(item), 1);
-				result.push(item);
+				var index = Math.floor(Math.random()*all.questions.length);
+				var item = all.questions[index];
+				all.questions.splice(index, 1);
+				if (item !== "undefined"){
+					result.push(item);
+				}
 			}
 		}
 		log('random questions:');
