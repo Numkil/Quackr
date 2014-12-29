@@ -14,10 +14,10 @@
         <a data-iconpos="notext" data-role="button" data-icon="home" title="Home" href="#profile"></a>
     </div>
 
-    <div id="pb_question"></div>
-
     <div data-role="content" role="main">
         <div class="centerdiv">
+            <div id="pb_question"></div>
+            <br>
             {{> messages}}
             <br>
             {{#with question}}
@@ -58,11 +58,11 @@
             </div>
             {{/with}}
         </div>
-        <script type="text/javascript">
+<script type="text/javascript">
 $("input[type=radio]").on( "click", function() {
-        selected = $(this).val();
-        $('#go').removeAttr('disabled');
-        });
+    selected = $(this).val();
+    $('#go').removeAttr('disabled');
+});
 
 function guess(catid, questionid){
     //All possible correct answers
