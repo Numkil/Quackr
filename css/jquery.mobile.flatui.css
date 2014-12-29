@@ -1,7 +1,6 @@
 .centerdiv{
 	width: 60%;
 	margin: auto;
-	margin-top: 2%;
 	max-width: 900px;
 }
 @media all and (max-width: 700px){
