@@ -19,7 +19,7 @@ var QuestionView = function (data) {
 
     this.initialize = function () {
 
-        var retrieveNewQuestion = function(){
+        var retrieveNewQuestions = function(){
             shake.stopWatch();
 
             var message = $('#deviceIsReady');
@@ -57,12 +57,12 @@ var QuestionView = function (data) {
                     question: result,
                     //catid: data,
                 }).done( function (){
-                    shake.startWatch(retrieveNewQuestion);
+                    shake.startWatch(redirect('question?id=' + data));
                     this.createProgressBar();
                     document.addEventListener("backbutton", backKeyDown, true);
                 });
             } else {
-                retrieveNewQuestion();
+                retrieveNewQuestions();
             }
         } else {
             //Re-render and show login page with login filled in
