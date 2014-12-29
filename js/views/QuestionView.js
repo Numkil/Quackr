@@ -19,7 +19,7 @@ var QuestionView = function (data) {
             }
         };
 
-        var retrieveNewQuestions = function(catid){
+        var retrieveNewQuestions = function(){
             shake.stopWatch();
 
             var message = $('#deviceIsReady');
@@ -30,7 +30,7 @@ var QuestionView = function (data) {
             log('Trying to retrieve more questions for the cache..');
             if (app.model.getMoreQuestions()){
                 log('Questions fetched! Reloading..');
-                redirect('next?id=' + catid);
+                redirect('next?id=' + data);
             } else {
                 log('Failed to fetch more questions.. Redirecting to categories overview..');
                 setInfoMessage('There are no questions left! Turn on internet access and try this again.');
@@ -58,13 +58,13 @@ var QuestionView = function (data) {
                     //catid: data,
                 }).done( function (){
                     log('Rendering done.');
-                    //shake.startWatch(redirect('question?id=' + data));
+                    shake.startWatch(retrieveNewQuestions);
                     createProgressBar();
                     document.addEventListener("backbutton", backKeyDown, true);
                 });
             } else {
                 log('Random question is NULL. Retrieving new questions..');
-                retrieveNewQuestions(data);
+                retrieveNewQuestions();
             }
         } else {
             //Re-render and show login page with login filled in
