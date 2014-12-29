@@ -3,15 +3,19 @@ var shake = (function () {
 		watchId = null,
 		options = { frequency: 300 },
 		previousAcceleration = { x: null, y: null, z: null },
-		shakeCallBack = null;
+		shakeCallBack = null, 
+        passedData = null;
 	
 	// Start watching the accelerometer for a shake gesture
-	shake.startWatch = function (onShake) {
+    shake.startWatch = function (onShake, data) {
 		if (navigator.hasOwnProperty('accelerometer')) {
 			if (onShake) {
 				log('onShake set.');
 				shakeCallBack = onShake;
 			}
+            if (data){
+                passedData = data;
+            }
 			watchId = navigator.accelerometer.watchAcceleration(getAccelerationSnapshot, handleError, options);
 		}
 	};
@@ -40,7 +44,7 @@ var shake = (function () {
 		if (accelerationChange.x + accelerationChange.y + accelerationChange.z > 30) {
 			// Shake detected
 			if (typeof (shakeCallBack) === "function") {
-				shakeCallBack();
+				shakeCallBack(passedData);
 			}
 			shake.stopWatch();
 			setTimeout(shake.startWatch, 1000, shakeCallBack);
