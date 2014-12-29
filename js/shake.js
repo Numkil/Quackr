@@ -13,9 +13,7 @@ var shake = (function () {
                 log('onShake set.');
                 shakeCallBack = onShake;
             }
-            if (data){
-                passedData = data;
-            }
+            passedData = data;
             watchId = navigator.accelerometer.watchAcceleration(getAccelerationSnapshot, handleError, options);
         }
     };
