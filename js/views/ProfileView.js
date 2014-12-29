@@ -6,8 +6,14 @@ var ProfileView = function (data) {
         if (app.loggedin == true){
             var cats = app.model.getCategories();
             var provider = app.userProfile.identities[0].provider;
+            log('raw provider: ' + provider);
             var myRegex = /(.*)\-oauth2/;
-            provider = myRegex.exec(provider)[1];
+            provider = myRegex.exec(provider);
+            if (provider){
+                provider = provider[1];
+            } else {
+                provider = app.userProfile.identities[0].provider;
+            }
 
             render('profile', {
                 name: app.userProfile.name,
