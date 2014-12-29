@@ -19,7 +19,7 @@ var QuestionView = function (data) {
             }
         };
 
-        var retrieveNewQuestions = function(){
+        var retrieveNewQuestions = function(catid){
             shake.stopWatch();
 
             var message = $('#deviceIsReady');
@@ -30,7 +30,7 @@ var QuestionView = function (data) {
             log('Trying to retrieve more questions for the cache..');
             if (app.model.getMoreQuestions()){
                 log('Questions fetched! Reloading..');
-                redirect('question?id=' + data);
+                redirect('next?id=' + catid);
             } else {
                 log('Failed to fetch more questions.. Redirecting to categories overview..');
                 setInfoMessage('There are no questions left! Turn on internet access and try this again.');
@@ -64,7 +64,7 @@ var QuestionView = function (data) {
                 });
             } else {
                 log('Random question is NULL. Retrieving new questions..');
-                retrieveNewQuestions();
+                retrieveNewQuestions(data);
             }
         } else {
             //Re-render and show login page with login filled in
