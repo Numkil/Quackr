@@ -7,7 +7,7 @@ var shake = (function () {
 	
 	// Start watching the accelerometer for a shake gesture
 	shake.startWatch = function (onShake) {
-		if (typeof navigator.accelerometer !== 'undefined') {
+		if (navigator.hasOwnProperty('accelerometer')) {
 			if (onShake) {
 				shakeCallBack = onShake;
 			}
