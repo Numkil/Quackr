@@ -33,17 +33,13 @@
           <li data-role="list-divider" data-theme="a"><a href="#question?id={{category.id}}">{{category.categoryname}}</a></li>
             {{#each questions}}
               <li>
-                <strong>{{{question}}}</strong>
+                <strong>{{this.question}}</strong>
+              </li>
+            {{else}}
+              <li>
+                Oh no! No questions left..  Good job!
               </li>
             {{/each}}
-            <li id="noquestions-{{{category.id}}}" style="display:none;">
-              Oh no! No questions left..  Good job!
-            </li>
-          <script type="text/javascript">
-            if ('{{{questions.length}}}' === '0'){
-              $('#noquestions-{{{category.id}}}').show();
-            }
-          </script>
         {{/each}}
       </ul>
      </div>
