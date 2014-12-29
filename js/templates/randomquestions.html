@@ -33,7 +33,7 @@
           <li data-role="list-divider" data-theme="a"><a href="#question?id={{category.id}}">{{category.categoryname}}</a></li>
             {{#each questions}}
               <li>
-                <strong>{{this.question}}</strong>
+                <strong>{{this.0.question}}</strong>
               </li>
             {{else}}
               <li>
