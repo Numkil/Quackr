@@ -54,13 +54,12 @@ var Model = function () {
 
 	//Requirement: questions must be fetched at least once on first boot
 	this.getData = function (input, force){
-		var auth0_request = (input.indexOf('quackr.auth0.com') > -1);
+		var auth0_request = (input.indexOf('auth0.com') > -1);
 		if (!auth0_request){
 		    var ttl = this.getLocal('TTL_' + input.trim());
 			log('TTL is ' + ttl + ' for ' + input);
 			now = new Date();
-			now.setDate(now.getDate());
-			log('(' + ttl + ' vs ' + now.getTime() + ')');
+			log('(TTL: ' + ttl + ' and now: ' + now.getTime() + ')');
 		}
         if (auth0_request || (!ttl) || (isNaN(ttl)) || ttl <= now.getTime() || (force)){
 			log('Auth0 request or TTL expired/not existant. Fetching online..');
@@ -101,7 +100,7 @@ var Model = function () {
 				return local;
 			} else {
 				//Local db is non existant. Try to fetch online by removing TTL and recursive call.
-				log('Local db is empty. Removing TTL and recursive calling myself.');
+				log('Local db is empty. Removing TTL and recursively calling myself.');
 				this.removeLocal('TTL_' + input.trim());
 				return this.getData(input);
 			}
@@ -346,7 +345,6 @@ var Model = function () {
 	this.incorrect = function (questionid) {
 		//update numbers
 		//http://d00med.net/quackr/secured/user/1/progress
-		
 
 		var wrong = this.getLocal('wrong');
 		if (wrong){
