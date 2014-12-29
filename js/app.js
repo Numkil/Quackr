@@ -178,7 +178,7 @@ var app = {
 		    	if (cid){
 		    		var q = this.model.getRandomQuestion(cid);
 		    		if (q){
-		    			var qv = new QuestionView(q.id);
+		    			var qv = new QuestionView(q.catid);
 		    		} else {
 		    			setInfoMessage('You finished this level! Turn on your internet and go to the category again.');
 		    			redirect('overview');

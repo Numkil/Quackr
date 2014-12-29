@@ -9,6 +9,7 @@ var shake = (function () {
 	shake.startWatch = function (onShake) {
 		if (navigator.hasOwnProperty('accelerometer')) {
 			if (onShake) {
+				log('onShake set.');
 				shakeCallBack = onShake;
 			}
 			watchId = navigator.accelerometer.watchAcceleration(getAccelerationSnapshot, handleError, options);

@@ -56,10 +56,12 @@ var Model = function () {
 	this.getData = function (input, force){
 		var auth0_request = (input.indexOf('auth0.com') > -1);
 		if (!auth0_request){
-		    var ttl = this.getLocal('TTL_' + input.trim());
+		    var ttl = parseInt(this.getLocal('TTL_' + input.trim()));
 			log('TTL is ' + ttl + ' for ' + input);
 			now = new Date();
 			log('(TTL: ' + ttl + ' and now: ' + now.getTime() + ')');
+		} else {
+			log('auth0 request.');
 		}
         if (auth0_request || (!ttl) || (isNaN(ttl)) || ttl <= now.getTime() || (force)){
 			log('Auth0 request or TTL expired/not existant. Fetching online..');
@@ -74,8 +76,8 @@ var Model = function () {
 					// Fill our local database
 					this.putLocal(input.trim(), result);
 					// Adjust/add the TTL
-					now.setTime(now.getTime() + 1); //one extra day
-					this.putLocal('TTL_' + input.trim(), now.getTime());
+					//now.setTime(now.getTime() + 1); //one extra day
+					this.putLocal('TTL_' + input.trim(), new Date(new Date().getTime() + 24 * 60 * 60 * 1000).getTime());
 					log('Put in cache:');
 					log(this.getLocal(input.trim()));
 					return result;
@@ -108,11 +110,16 @@ var Model = function () {
 	},
 
 	this.getMoreQuestions = function () {
+		log('Getting the categories');
 		var categories = this.getCategories();
+		log('Categories:');
+		log(categories);
 		var r = false;
 		categories.forEach(function (entry){
 			//Will be cached automagically.
 			log('Getting questions for category ' + entry.id);
+			log('category:');
+			log(entry);
 			var re = (app.model.getQuestions(entry.id, true));
 			if (re){
 				r = true;
@@ -150,7 +157,7 @@ var Model = function () {
 		var submits = this.getSubmits();
 		this.removeLocal('submits'); //only re-add when failed
 		submits.forEach( function (entry) {
-			dosubmit(entry.url, entry.data);
+			app.model.dosubmit(entry.url, entry.data);
 		});
 	},
 
@@ -194,9 +201,11 @@ var Model = function () {
 
 	this.getRandomQuestion = function(catid) {
 		//return this.getData(this.categoryURL + catid + '/random');
+		log('Fetching random question..');
 		var all = this.getQuestions(catid);
 		if (all && all.questions && all.questions.length > 0){
 			var r = all.questions[Math.floor(Math.random()*all.questions.length)];
+			r[0].category = all.categoryname;
 			log('Random question;');
 			log(r);
 		} else {
@@ -231,6 +240,7 @@ var Model = function () {
 	this.getRandomQuestions = function(catid, count) {
 		//return this.getData(this.categoryURL + catid + '/random/' + count);
 		var result = [];
+		log('GetRandomQuestions');
 		var all = this.getQuestions(catid);
 		if (all.questions.length > 0){
 			for (i = 0; i < count && i <= all.questions.length; i++) {

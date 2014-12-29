@@ -1,23 +1,23 @@
 var QuestionView = function (data) {
     //View for the overview screen
 
-    this.createProgressBar = function() {
-        var answered = app.model.getCategoryAnswered(data);
-        if (answered){
-            var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
-            var gage = new JustGage({
-                id: 'pb_question',
-                value: (progress * 100),
-                min: 0,
-                max: 100,
-                title: '',
-                label: '%',
-                donut: true,
-            });
-        }
-    },
-
     this.initialize = function () {
+
+        var createProgressBar = function() {
+            var answered = app.model.getCategoryAnswered(data);
+            if (answered){
+                var progress = Math.round(answered.sizeFinished / answered.sizeQuestions);
+                var gage = new JustGage({
+                    id: 'pb_question',
+                    value: (progress * 100),
+                    min: 0,
+                    max: 100,
+                    title: '',
+                    label: '%',
+                    donut: true,
+                });
+            }
+        };
 
         var retrieveNewQuestions = function(){
             shake.stopWatch();
@@ -29,10 +29,10 @@ var QuestionView = function (data) {
             //try retrieving more
             log('Trying to retrieve more questions for the cache..');
             if (app.model.getMoreQuestions()){
-                log('YES! Reloading..');
+                log('Questions fetched! Reloading..');
                 redirect('question?id=' + data);
             } else {
-                log('Nope, failed.');
+                log('Failed to fetch more questions.. Redirecting to categories overview..');
                 setInfoMessage('There are no questions left! Turn on internet access and try this again.');
                 redirect('categories');
             }
@@ -57,11 +57,13 @@ var QuestionView = function (data) {
                     question: result,
                     //catid: data,
                 }).done( function (){
-                    shake.startWatch(redirect('question?id=' + data));
-                    this.createProgressBar();
+                    log('Rendering done.');
+                    //shake.startWatch(redirect('question?id=' + data));
+                    createProgressBar();
                     document.addEventListener("backbutton", backKeyDown, true);
                 });
             } else {
+                log('Random question is NULL. Retrieving new questions..');
                 retrieveNewQuestions();
             }
         } else {
