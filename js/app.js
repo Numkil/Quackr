@@ -22,6 +22,12 @@ var app = {
 			}
 		}
 
+		//-- for internal testing
+		Handlebars.registerHelper('json', function(context) {
+    		return JSON.stringify(context);
+		});
+
+
 		this.bindEvents();
 		this.route(); //!!! temporary for testing
     },
