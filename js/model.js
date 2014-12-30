@@ -170,7 +170,11 @@ var Model = function () {
 	},
 
 	this.getSubmits = function () {
-		return this.getLocal('submits');
+		var submits = this.getLocal('submits');
+		if (!submits){
+			submits = [];
+		}
+		return submits;
 	},
 
     this.deleteProgress = function(){
