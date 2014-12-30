@@ -135,18 +135,20 @@ var Model = function () {
 	this.dosubmit = function(url, data) {
 		log('Submitting:');
 		log(data);
-		$.post( url, JSON.stringify(data), "json")
-			.done( function () {
-			  	log('submit successful!');
-			    log('Submitting our queue..');
-			    //if a submit is successful, let it be.
-			    app.model.doSubmits();
-			})
-			.fail( function (){
-				log('submit failed for ' + url + '. Adding to local queue.');
-				//if a submit failed, re-add it locally
-				app.model.storeSubmit(url, data);
-			});
+		if (data){
+			$.post( url, JSON.stringify(data), "json")
+				.done( function () {
+				  	log('submit successful!');
+				    log('Submitting our queue..');
+				    //if a submit is successful, let it be.
+				    app.model.doSubmits();
+				})
+				.fail( function (){
+					log('submit failed for ' + url + '. Adding to local queue.');
+					//if a submit failed, re-add it locally
+					app.model.storeSubmit(url, data);
+				});
+		}
 	},
 
 	this.doSubmits = function () {
