@@ -13,6 +13,8 @@
     <author href="http://d00med.net/" email="hazcod@outlook.be">
         Niels Hofmans &amp; Kevin Jossart
     </author>
+    
+    <icon src="css/images/logo.png" />
 
     <!-- plugins -->
     <gap:plugin name="org.apache.cordova.geolocation" />
