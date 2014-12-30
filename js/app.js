@@ -81,6 +81,7 @@ var app = {
     	this.loggedin = false;
     	localStorage.removeItem('token');
     	localStorage.removeItem('userID');
+    	$.jStorage.flush(); //cache
 		this.userProfile = null;
 		history.pushState("", document.title, window.location.pathname); //Reset hash to prevent logging us out when logging in!
 		redirect('login');
@@ -171,7 +172,7 @@ var app = {
 		    	if (qid){
 		    		var qv = new QuestionView(qid);
 		    	} else {
-		    		log('no question id given');
+		    		log('no cat id given');
 		    		setErrorMessage("No question chosen!");
 		    		redirect('overview');
 		    	}

@@ -70,7 +70,7 @@ var QuestionView = function (data) {
                     document.addEventListener("backbutton", backKeyDown, true);
                 });
             } else {
-                log('Random question is NULL. Retrieving new questions..');
+                log('Random question is NULL. Retrieving new questions for category ' + data);
                 retrieveNewQuestions(data);
             }
         } else {

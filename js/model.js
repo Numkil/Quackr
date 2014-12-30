@@ -135,18 +135,20 @@ var Model = function () {
 	this.dosubmit = function(url, data) {
 		log('Submitting:');
 		log(data);
-		$.post( url, JSON.stringify(data), "json")
-			.done( function () {
-			  	log('submit successful!');
-			    log('Submitting our queue..');
-			    //if a submit is successful, let it be.
-			    this.doSubmits();
-			})
-			.fail( function (){
-				log('submit failed for ' + url + '. Adding to local queue.');
-				//if a submit failed, re-add it locally
-				this.storeSubmit(url, data);
-			});
+		if (data){
+			$.post( url, JSON.stringify(data), "json")
+				.done( function () {
+				  	log('submit successful!');
+				    log('Submitting our queue..');
+				    //if a submit is successful, let it be.
+				    app.model.doSubmits();
+				})
+				.fail( function (){
+					log('submit failed for ' + url + '. Adding to local queue.');
+					//if a submit failed, re-add it locally
+					app.model.storeSubmit(url, data);
+				});
+		}
 	},
 
 	this.doSubmits = function () {
@@ -170,7 +172,11 @@ var Model = function () {
 	},
 
 	this.getSubmits = function () {
-		return this.getLocal('submits');
+		var submits = this.getLocal('submits');
+		if (!submits){
+			submits = [];
+		}
+		return submits;
 	},
 
     this.deleteProgress = function(){
@@ -270,7 +276,11 @@ var Model = function () {
 
 	this.sendNumbers = function() {
 		var solved_arr = this.getLocal('solved');
+		log('solved_arr:');
+		log(solved_arr);
 		var wrong_arr  = this.getLocal('wrong');
+		log('wrong_arr:');
+		log(wrong_arr);
 		if (solved_arr || wrong_arr){
 			log('Submitting to server..');
 			error = false;
@@ -286,9 +296,10 @@ var Model = function () {
 				solved_arr.forEach(function (entry){
 					data['solved'].push(entry);
 				});
-				this.submit(this.submitURL, data);
-				log('Submitted progress.');
+				log('Submitting;');
 				log(data);
+				this.submit(this.submitURL, data);
+				log('Submitted progress. getMoreQuestions!');
 				//flush cache, because the server is updated
 				this.getMoreQuestions();
 			} catch (err) {
@@ -306,6 +317,7 @@ var Model = function () {
 		var all = this.getCategories();
 		var done = false;
 		new_arr = [];  
+		log('removeQuestionFromCache');
 		all.forEach(function(cat){
 			if (!done){
 				var cat_id = cat.id;
@@ -313,6 +325,7 @@ var Model = function () {
 				if (all_question){
 					all_question.questions.forEach(function(question){
 						var question_id = question.id;
+						log('Is ' + question.id + ' = ' + question_id + ' ?');
 						if (question.id != questionid){
 							new_arr.push(question);
 						} else {
@@ -344,8 +357,10 @@ var Model = function () {
 		if (solved_arr){
 			solved_arr.push(questionid);
 			if (this.sendNumbers()){
+				log('Numbers submitted. Removing local correct progress');
 				this.removeLocal('solved');
 			} else {
+				log('Number submit failed. Adding to local correct progress');
 				this.putLocal('solved', solved_arr);
 			}
 		} else {
@@ -356,13 +371,15 @@ var Model = function () {
 	this.incorrect = function (questionid) {
 		//update numbers
 		//http://d00med.net/quackr/secured/user/1/progress
-
+		log('Incorrect');
 		var wrong = this.getLocal('wrong');
 		if (wrong){
 			wrong.push(questionid);
 			if (this.sendNumbers()){
+				log('Numbers submitted. Removing local incorrect progress.');
 				this.removeLocal('wrong');
 			} else {
+				log('Number submit failed. Adding to local incorrect progress.');
 				this.putLocal('wrong', wrong);
 			}
 		} else {
