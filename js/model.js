@@ -328,12 +328,11 @@ var Model = function () {
 					log(all_question.questions);
 					all_question.questions.forEach(function(question){
 						log('*');
-						log(question);
-						log("lvl test: " + question.lvl);
-						var question_id = question.id;
-						log('Is ' + question.id + ' = ' + questionid + ' ?');
+						log(question[0]);
+						var question_id = question[0].id;
+						log('Is ' + question_id + ' = ' + questionid + ' ?');
 						if (question.id !== undefined && question.id != questionid){
-							new_arr.push(question);
+							new_arr.push(question[0]);
 						} else {
 							log('question ' + questionid + ' found!');
 							//found the category
@@ -344,7 +343,10 @@ var Model = function () {
 						//this is the category you're looking for. Replace cached questions with a version without the question
 						log('New cached version:');
 						log(new_arr);
-						app.model.putLocal(this.categoryURL + cat.id, new_arr);
+						log('Complete version:');
+						log(all_question);
+						all_question.questions = new_arr;
+						app.model.putLocal(this.categoryURL + cat.id, all_question);
 					}
 				}
 			}
