@@ -318,15 +318,21 @@ var Model = function () {
 		var done = false;
 		new_arr = [];  
 		log('removeQuestionFromCache');
+		log(all);
 		all.forEach(function(cat){
 			if (!done){
 				var cat_id = cat.id;
 				var all_question = app.model.getQuestions(cat_id);
 				if (all_question){
+					log('all_question.questions:');
+					log(all_question.questions);
 					all_question.questions.forEach(function(question){
+						log('*');
+						log(question);
+						log("lvl test: " + question.lvl);
 						var question_id = question.id;
-						log('Is ' + question.id + ' = ' + question_id + ' ?');
-						if (question.id != questionid){
+						log('Is ' + question.id + ' = ' + questionid + ' ?');
+						if (question.id !== undefined && question.id != questionid){
 							new_arr.push(question);
 						} else {
 							log('question ' + questionid + ' found!');
