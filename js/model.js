@@ -344,7 +344,7 @@ var Model = function () {
 						//this is the category you're looking for. Replace cached questions with a version without the question
 						log('New cached version:');
 						log(new_arr);
-						this.putLocal(this.categoryURL + cat.id, new_arr);
+						app.model.putLocal(this.categoryURL + cat.id, new_arr);
 					}
 				}
 			}
