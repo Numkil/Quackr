@@ -112,6 +112,8 @@ var app = {
     route: function(eventt, input) {
     // route is called when a link is clicked
     	var hash = input;
+    	log(hash);
+
     	if (!hash){
     		if (window.location.hash){
     			hash = window.location.hash;
@@ -183,9 +185,8 @@ var app = {
 		    } else if (hash.match(this.nextURL)) {
 		    	var cid = this.getID(hash);
 		    	if (cid){
-		    		var q = this.model.getRandomQuestion(cid);
-		    		if (q){
-		    			var qv = new QuestionView(q.catid);
+		    		if (cid){
+		    			var qv = new QuestionView(cid);
 		    		} else {
 		    			setInfoMessage('You finished this level! Turn on your internet and go to the category again.');
 		    			redirect('overview');
